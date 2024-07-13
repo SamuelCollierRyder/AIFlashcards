@@ -3,23 +3,37 @@ import Modal from "@cloudscape-design/components/modal";
 import Box from "@cloudscape-design/components/box";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
+import Textarea from "@cloudscape-design/components/textarea";
 
 const Card = () => {
+  const [value, setValue] = React.useState("");
+  const [visible, setVisible] = React.useState(true);
   return (
     <Modal
       onDismiss={() => setVisible(false)}
-      visible={true}
+      visible={visible}
       footer={
         <Box float="right">
           <SpaceBetween direction="horizontal" size="xs">
             <Button variant="link">Cancel</Button>
-            <Button variant="primary">Ok</Button>
+            <Button variant="primary">Add card</Button>
           </SpaceBetween>
         </Box>
       }
-      header="Modal title"
+      header="Add Card"
     >
-      Your description should go here
+      <SpaceBetween size="xs">
+        <Textarea
+          onChange={({ detail }) => setValue(detail.value)}
+          value={value}
+          placeholder="Add the card's frontside"
+        />
+        <Textarea
+          onChange={({ detail }) => setValue(detail.value)}
+          value={value}
+          placeholder="Add the card's backside"
+        />
+      </SpaceBetween>
     </Modal>
   );
 };
