@@ -5,9 +5,9 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 import Textarea from "@cloudscape-design/components/textarea";
 
-const Card = () => {
-  const [value, setValue] = React.useState("");
-  const [visible, setVisible] = React.useState(true);
+const Card = ({visible, setVisible}) => {
+  const [frontSideValue, setFrontSideValue] = React.useState("");
+  const [backSideValue, setBackSideValue] = React.useState("");
   return (
     <Modal
       onDismiss={() => setVisible(false)}
@@ -15,7 +15,7 @@ const Card = () => {
       footer={
         <Box float="right">
           <SpaceBetween direction="horizontal" size="xs">
-            <Button variant="link">Cancel</Button>
+            <Button variant="link" onClick={() => setVisible(false)}>Cancel</Button>
             <Button variant="primary">Add card</Button>
           </SpaceBetween>
         </Box>
@@ -24,13 +24,13 @@ const Card = () => {
     >
       <SpaceBetween size="xs">
         <Textarea
-          onChange={({ detail }) => setValue(detail.value)}
-          value={value}
+          onChange={({ detail }) => setFrontSideValue(detail.value)}
+          value={frontSideValue}
           placeholder="Add the card's frontside"
         />
         <Textarea
-          onChange={({ detail }) => setValue(detail.value)}
-          value={value}
+          onChange={({ detail }) => setBackSideValue(detail.value)}
+          value={backSideValue}
           placeholder="Add the card's backside"
         />
       </SpaceBetween>
