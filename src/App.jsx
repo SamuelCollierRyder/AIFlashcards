@@ -1,7 +1,7 @@
 import React from "react";
 import Home from "./pages/Home.jsx";
 import Layout from "./pages/Layout.jsx";
-import ReactDOM from "react-dom/client";
+import SignUp from "./pages/SignUp.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -10,6 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="signup" element={<SignUp />}/>
         </Route>
       </Routes>
     </BrowserRouter>
