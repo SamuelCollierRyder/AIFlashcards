@@ -1,0 +1,6 @@
+{
+  "cards": [
+    { "id": "1", "front": "a title", "back": 100 },
+    { "id": "2", "front": "a title", "back": 100 }
+  ]
+}
