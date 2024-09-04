@@ -4,7 +4,7 @@ import Box from "@cloudscape-design/components/box";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 
-export default function CardModal({isVisible, setVisible}) {
+export default function AddCardModal({isVisible, setVisible}) {
   return (
     <Modal
       onDismiss={() => setVisible(false)}

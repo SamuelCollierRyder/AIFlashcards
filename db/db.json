@@ -1,6 +1,400 @@
 {
   "cards": [
-    { "id": "1", "front": "a title", "back": 100 },
-    { "id": "2", "front": "a title", "back": 100 }
+    {
+      "front": "What is the capital of France?",
+      "back": "Paris"
+    },
+    {
+      "front": "Who wrote 'Romeo and Juliet'?",
+      "back": "William Shakespeare"
+    },
+    {
+      "front": "What is the chemical symbol for gold?",
+      "back": "Au"
+    },
+    {
+      "front": "In which year did World War II end?",
+      "back": "1945"
+    },
+    {
+      "front": "What is the largest planet in our solar system?",
+      "back": "Jupiter"
+    },
+    {
+      "front": "Who painted the Mona Lisa?",
+      "back": "Leonardo da Vinci"
+    },
+    {
+      "front": "What is the capital of Japan?",
+      "back": "Tokyo"
+    },
+    {
+      "front": "What is the chemical formula for water?",
+      "back": "H2O"
+    },
+    {
+      "front": "Who was the first President of the United States?",
+      "back": "George Washington"
+    },
+    {
+      "front": "What is the largest organ in the human body?",
+      "back": "Skin"
+    },
+    {
+      "front": "What is the capital of Australia?",
+      "back": "Canberra"
+    },
+    {
+      "front": "Who discovered penicillin?",
+      "back": "Alexander Fleming"
+    },
+    {
+      "front": "What is the smallest prime number?",
+      "back": "2"
+    },
+    {
+      "front": "In which year did the Titanic sink?",
+      "back": "1912"
+    },
+    {
+      "front": "What is the main component of the Sun?",
+      "back": "Hydrogen"
+    },
+    {
+      "front": "Who wrote '1984'?",
+      "back": "George Orwell"
+    },
+    {
+      "front": "What is the capital of Brazil?",
+      "back": "Brasília"
+    },
+    {
+      "front": "What is the chemical symbol for oxygen?",
+      "back": "O"
+    },
+    {
+      "front": "Who painted 'Starry Night'?",
+      "back": "Vincent van Gogh"
+    },
+    {
+      "front": "What is the largest ocean on Earth?",
+      "back": "Pacific Ocean"
+    },
+    {
+      "front": "What is the capital of Canada?",
+      "back": "Ottawa"
+    },
+    {
+      "front": "Who developed the theory of relativity?",
+      "back": "Albert Einstein"
+    },
+    {
+      "front": "What is the square root of 64?",
+      "back": "8"
+    },
+    {
+      "front": "In which year did the Berlin Wall fall?",
+      "back": "1989"
+    },
+    {
+      "front": "What is the hardest natural substance on Earth?",
+      "back": "Diamond"
+    },
+    {
+      "front": "Who wrote 'To Kill a Mockingbird'?",
+      "back": "Harper Lee"
+    },
+    {
+      "front": "What is the capital of Egypt?",
+      "back": "Cairo"
+    },
+    {
+      "front": "What is the chemical symbol for sodium?",
+      "back": "Na"
+    },
+    {
+      "front": "Who invented the telephone?",
+      "back": "Alexander Graham Bell"
+    },
+    {
+      "front": "What is the largest desert in the world?",
+      "back": "Antarctic Desert"
+    },
+    {
+      "front": "What is the capital of Spain?",
+      "back": "Madrid"
+    },
+    {
+      "front": "Who composed the 'Moonlight Sonata'?",
+      "back": "Ludwig van Beethoven"
+    },
+    {
+      "front": "What is the boiling point of water in Celsius?",
+      "back": "100°C"
+    },
+    {
+      "front": "In which year did the American Civil War end?",
+      "back": "1865"
+    },
+    {
+      "front": "What is the closest star to Earth?",
+      "back": "The Sun"
+    },
+    {
+      "front": "Who wrote 'Pride and Prejudice'?",
+      "back": "Jane Austen"
+    },
+    {
+      "front": "What is the capital of China?",
+      "back": "Beijing"
+    },
+    {
+      "front": "What is the chemical symbol for iron?",
+      "back": "Fe"
+    },
+    {
+      "front": "Who painted the Sistine Chapel ceiling?",
+      "back": "Michelangelo"
+    },
+    {
+      "front": "What is the longest river in the world?",
+      "back": "Nile"
+    },
+    {
+      "front": "What is the capital of Russia?",
+      "back": "Moscow"
+    },
+    {
+      "front": "Who discovered gravity?",
+      "back": "Isaac Newton"
+    },
+    {
+      "front": "What is the value of pi to two decimal places?",
+      "back": "3.14"
+    },
+    {
+      "front": "In which year did the French Revolution begin?",
+      "back": "1789"
+    },
+    {
+      "front": "What is the most abundant gas in Earth's atmosphere?",
+      "back": "Nitrogen"
+    },
+    {
+      "front": "Who wrote 'The Great Gatsby'?",
+      "back": "F. Scott Fitzgerald"
+    },
+    {
+      "front": "What is the capital of Italy?",
+      "back": "Rome"
+    },
+    {
+      "front": "What is the chemical symbol for carbon?",
+      "back": "C"
+    },
+    {
+      "front": "Who invented the light bulb?",
+      "back": "Thomas Edison"
+    },
+    {
+      "front": "What is the largest country by land area?",
+      "back": "Russia"
+    },
+    {
+      "front": "What is the capital of South Africa?",
+      "back": "Pretoria (executive), Cape Town (legislative), Bloemfontein (judicial)"
+    },
+    {
+      "front": "Who painted 'The Persistence of Memory'?",
+      "back": "Salvador Dalí"
+    },
+    {
+      "front": "What is the atomic number of hydrogen?",
+      "back": "1"
+    },
+    {
+      "front": "In which year did Christopher Columbus reach the Americas?",
+      "back": "1492"
+    },
+    {
+      "front": "What is the smallest planet in our solar system?",
+      "back": "Mercury"
+    },
+    {
+      "front": "Who wrote 'The Odyssey'?",
+      "back": "Homer"
+    },
+    {
+      "front": "What is the capital of Germany?",
+      "back": "Berlin"
+    },
+    {
+      "front": "What is the chemical symbol for silver?",
+      "back": "Ag"
+    },
+    {
+      "front": "Who developed the polio vaccine?",
+      "back": "Jonas Salk"
+    },
+    {
+      "front": "What is the deepest part of the ocean?",
+      "back": "Challenger Deep (in the Mariana Trench)"
+    },
+    {
+      "front": "What is the capital of Argentina?",
+      "back": "Buenos Aires"
+    },
+    {
+      "front": "Who composed 'The Four Seasons'?",
+      "back": "Antonio Vivaldi"
+    },
+    {
+      "front": "What is the freezing point of water in Fahrenheit?",
+      "back": "32°F"
+    },
+    {
+      "front": "In which year did World War I begin?",
+      "back": "1914"
+    },
+    {
+      "front": "What is the largest moon of Jupiter?",
+      "back": "Ganymede"
+    },
+    {
+      "front": "Who wrote 'War and Peace'?",
+      "back": "Leo Tolstoy"
+    },
+    {
+      "front": "What is the capital of Mexico?",
+      "back": "Mexico City"
+    },
+    {
+      "front": "What is the chemical symbol for helium?",
+      "back": "He"
+    },
+    {
+      "front": "Who invented the World Wide Web?",
+      "back": "Tim Berners-Lee"
+    },
+    {
+      "front": "What is the highest mountain in Africa?",
+      "back": "Mount Kilimanjaro"
+    },
+    {
+      "front": "What is the capital of India?",
+      "back": "New Delhi"
+    },
+    {
+      "front": "Who discovered radioactivity?",
+      "back": "Henri Becquerel"
+    },
+    {
+      "front": "What is the chemical formula for table salt?",
+      "back": "NaCl"
+    },
+    {
+      "front": "In which year did the United States declare independence?",
+      "back": "1776"
+    },
+    {
+      "front": "What is the largest species of shark?",
+      "back": "Whale shark"
+    },
+    {
+      "front": "Who wrote 'The Catcher in the Rye'?",
+      "back": "J.D. Salinger"
+    },
+    {
+      "front": "What is the capital of Turkey?",
+      "back": "Ankara"
+    },
+    {
+      "front": "What is the chemical symbol for nitrogen?",
+      "back": "N"
+    },
+    {
+      "front": "Who painted 'The Scream'?",
+      "back": "Edvard Munch"
+    },
+    {
+      "front": "What is the largest island in the world?",
+      "back": "Greenland"
+    },
+    {
+      "front": "What is the capital of Sweden?",
+      "back": "Stockholm"
+    },
+    {
+      "front": "Who developed the theory of evolution by natural selection?",
+      "back": "Charles Darwin"
+    },
+    {
+      "front": "What is the speed of light in vacuum?",
+      "back": "299,792,458 meters per second"
+    },
+    {
+      "front": "In which year did the Russian Revolution occur?",
+      "back": "1917"
+    },
+    {
+      "front": "What is the smallest bone in the human body?",
+      "back": "Stapes (in the middle ear)"
+    },
+    {
+      "front": "Who wrote 'One Hundred Years of Solitude'?",
+      "back": "Gabriel García Márquez"
+    },
+    {
+      "front": "What is the capital of South Korea?",
+      "back": "Seoul"
+    },
+    {
+      "front": "What is the chemical symbol for copper?",
+      "back": "Cu"
+    },
+    {
+      "front": "Who invented the steam engine?",
+      "back": "James Watt"
+    },
+    {
+      "front": "What is the largest lake by volume in the world?",
+      "back": "Lake Baikal"
+    },
+    {
+      "front": "What is the capital of Nigeria?",
+      "back": "Abuja"
+    },
+    {
+      "front": "Who composed 'Symphony No. 5'?",
+      "back": "Ludwig van Beethoven"
+    },
+    {
+      "front": "What is the chemical formula for glucose?",
+      "back": "C6H12O6"
+    },
+    {
+      "front": "In which year did the Industrial Revolution begin?",
+      "back": "Circa 1760"
+    },
+    {
+      "front": "What is the largest species of penguin?",
+      "back": "Emperor penguin"
+    },
+    {
+      "front": "Who wrote 'The Picture of Dorian Gray'?",
+      "back": "Oscar Wilde"
+    },
+    {
+      "front": "What is the capital of Indonesia?",
+      "back": "Jakarta"
+    },
+    {
+      "front": "What is the chemical symbol for potassium?",
+      "back": "K"
+    },
+    {
+      "front": "Who discovered the structure of DNA?",
+      "back": "James Watson, Francis Crick, and Rosalind Franklin"
+    }
   ]
 }
