@@ -16,10 +16,15 @@ export default function App() {
   const [reviewCardVisibile, setReviewCardVisibile] = useState(false);
   const [cards, setCards] = useState([{}]);
   const [index, setIndex] = useState(0);
-  useEffect(() => {
+
+  async function fetchCards() {
     fetch("http://localhost:3000/cards")
       .then((data) => data.json())
       .then((data) => setCards(data));
+  }
+
+  useEffect(() => {
+    fetchCards(setCards);
   }, []);
 
   return (
@@ -34,6 +39,7 @@ export default function App() {
       <AddCardModal
         isVisible={addCardVisibile}
         setVisible={setAddCardVisibile}
+        fetchCards={() => fetchCards()}
       />
 
       <ReviewCardModal
@@ -41,7 +47,9 @@ export default function App() {
         setVisible={setReviewCardVisibile}
         answer={cards[index].back}
         question={cards[index].front}
-        nextCard={() => cards.length -1 > index ? setIndex(index+1) : setIndex(0)}
+        nextCard={() =>
+          cards.length - 1 > index ? setIndex(index + 1) : setIndex(0)
+        }
       />
 
       <SpaceBetween alignItems="center" size="xs">
