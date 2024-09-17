@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   return (
     <TopNavigation
-      style={{color: "red"}}
       identity={{
         href: "#",
         title: "Ponder",
@@ -16,10 +18,13 @@ export default function Header() {
       utilities={[
         {
           type: "button",
-          text: "Link",
-          href: "https://example.com/",
-          external: true,
-          externalIconAriaLabel: " (opens in a new tab)",
+          text: "Sign up",
+          onClick: () => navigate("/sign-up"),
+        },
+        {
+          type: "button",
+          text: "Log in",
+          onClick: () => navigate("/sign-up"),
         },
       ]}
     />
