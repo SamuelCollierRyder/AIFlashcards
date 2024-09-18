@@ -1,6 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
+import { fetchWithAuth } from "./utils.js";
+
+async function test() {
+  fetchWithAuth("http://localhost:5000/protected")
+    .then((data) => data.json())
+    .then((data) => {
+      console.log(data);
+    });
+}
 
 export default function Header() {
   const navigate = useNavigate();
@@ -8,12 +17,12 @@ export default function Header() {
   return (
     <TopNavigation
       identity={{
-        href: "#",
+        href: "/",
         title: "Ponder",
         logo: {
           src: "src/images/logo.png",
-          alt: "Ponder"
-        }
+          alt: "Ponder",
+        },
       }}
       utilities={[
         {
@@ -24,7 +33,12 @@ export default function Header() {
         {
           type: "button",
           text: "Log in",
-          onClick: () => navigate("/sign-up"),
+          onClick: () => navigate("/log-in"),
+        },
+        {
+          type: "button",
+          text: "Test JWT",
+          onClick: () => test(),
         },
       ]}
     />

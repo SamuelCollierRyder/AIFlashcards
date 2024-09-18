@@ -1,4 +1,10 @@
 {
-  "cards": [
+  "cards": [],
+  "credentials": [
+    {
+      "id": "dbe3",
+      "email": "sam",
+      "password": "sam"
+    }
   ]
 }

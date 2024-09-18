@@ -9,6 +9,7 @@ from flask_jwt_extended import (
 )
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from flask_cors import CORS
 
 with open("../secrets.json") as f:
     data = json.load(f)
@@ -21,6 +22,7 @@ client = MongoClient(uri, server_api=ServerApi("1"))
 collection = client.flashCards.flashCards
 
 app = Flask(__name__)
+CORS(app)
 app.secret_key = secret_key
 app.config["JWT_SECRET_KEY"] = jwt_secret_key
 jwt = JWTManager(app)
