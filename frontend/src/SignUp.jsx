@@ -5,13 +5,15 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 
 async function signUp(email, password, setMessage) {
-  await fetch("http://localhost:3000/credentials", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  await fetch(
+    `http://localhost:5000/sign-up?email=${email}&password=${password}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-    body: JSON.stringify({"email": email, "password": password })
-  });
+  );
   setMessage("Signed up!");
 }
 
@@ -43,7 +45,9 @@ export default function SignUp() {
               placeholder="Password"
               type="password"
             />
-            <Button onClick={() => signUp(email, password, setMessage)}>Sign Up</Button>
+            <Button onClick={() => signUp(email, password, setMessage)}>
+              Sign Up
+            </Button>
           </SpaceBetween>
         </div>
       }

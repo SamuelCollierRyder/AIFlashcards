@@ -1,5 +1,11 @@
 {
-  "cards": [],
+  "cards": [
+    {
+      "id": "f4e7",
+      "front": "Hello",
+      "back": "world"
+    }
+  ],
   "credentials": [
     {
       "id": "dbe3",

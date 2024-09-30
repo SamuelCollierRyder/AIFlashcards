@@ -4,12 +4,14 @@ import Button from "@cloudscape-design/components/button";
 import AddCardModal from "./AddCardModal";
 import ReviewCardModal from "./ReviewCardModal";
 import Layout from "./Layout";
+import { fetchWithAuth } from "./utils.js";
 
 export default function App() {
   const [addCardVisibile, setAddCardVisibile] = useState(false);
   const [reviewCardVisibile, setReviewCardVisibile] = useState(false);
   const [cards, setCards] = useState([]);
   const [index, setIndex] = useState(0);
+  const [user, setUser] = useState(null);
 
   async function fetchCards() {
     fetch("http://localhost:3000/cards")
@@ -21,6 +23,14 @@ export default function App() {
 
   useEffect(() => {
     fetchCards(setCards);
+  }, []);
+
+  useEffect(() => {
+    fetchWithAuth("http://localhost:5000/get-user")
+      .then((data) => data.json())
+      .then((data) => {
+        setUser(data.logged_in_as);
+      });
   }, []);
 
   return (
@@ -53,6 +63,7 @@ export default function App() {
           ) : null}
 
           <SpaceBetween alignItems="center" size="xs">
+            <div>Hello {user}</div>
             <Button
               variant="primary"
               onClick={() =>

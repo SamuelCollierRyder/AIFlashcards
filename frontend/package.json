@@ -12,7 +12,10 @@
   "dependencies": {
     "@cloudscape-design/components": "^3.0.727",
     "@cloudscape-design/global-styles": "^1.0.32",
+    "bcryptjs": "^2.4.3",
+    "install": "^0.13.0",
     "json-server": "^1.0.0-beta.2",
+    "npm": "^10.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"

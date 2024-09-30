@@ -4,16 +4,18 @@ import Input from "@cloudscape-design/components/input";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 
-
 async function logIn(email, password, setMessage) {
   try {
-    const response = await fetch(`http://localhost:5000/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `http://localhost:5000/log-in?email=${email}&password=${password}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       },
-      body: JSON.stringify({ email, password }),
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Login failed");
@@ -27,19 +29,6 @@ async function logIn(email, password, setMessage) {
     console.error("Login failed:", error);
     throw error;
   }
-  // let user = null;
-  // await fetch("http://localhost:3000/credentials")
-  //   .then((data) => data.json())
-  //   .then((data) => {
-  //     user = (data);
-  //   });
-  // if (user.find((user) => user.email === email && user.password === password)){
-  //   setMessage("Logged in!");
-  //   fetch("http://localhost:5000/login")
-  // }
-  // else {
-  //   setMessage("Invalid email or password");
-  // }
 }
 
 export default function SignUp() {
