@@ -5,6 +5,11 @@ import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 
 async function signUp(email, password, setMessage) {
+  if (!email || !password) {
+    setMessage("Please enter an email and password");
+    return;
+  }
+
   await fetch(
     `http://localhost:5000/sign-up?email=${email}&password=${password}`,
     {
@@ -19,8 +24,8 @@ async function signUp(email, password, setMessage) {
 
 export default function SignUp() {
   const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   return (
     <Layout
       content={

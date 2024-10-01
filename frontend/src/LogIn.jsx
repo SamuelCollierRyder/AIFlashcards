@@ -3,8 +3,9 @@ import Layout from "./Layout";
 import Input from "@cloudscape-design/components/input";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
+import { useNavigate } from "react-router-dom";
 
-async function logIn(email, password, setMessage) {
+async function logIn(email, password, setMessage, navigate) {
   try {
     const response = await fetch(
       `http://localhost:5000/log-in?email=${email}&password=${password}`,
@@ -18,20 +19,24 @@ async function logIn(email, password, setMessage) {
     );
 
     if (!response.ok) {
+      setMessage("Login failed");
       throw new Error("Login failed");
     }
 
     const data = await response.json();
     const token = data.access_token;
     localStorage.setItem("token", token);
+    navigate("/");
     return token;
   } catch (error) {
     console.error("Login failed:", error);
+    setMessage("Login failed");
     throw error;
   }
 }
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [message, setMessage] = useState(null);
@@ -59,7 +64,7 @@ export default function SignUp() {
               placeholder="Password"
               type="password"
             />
-            <Button onClick={() => logIn(email, password, setMessage)}>
+            <Button onClick={() => logIn(email, password, setMessage, navigate)}>
               Log in
             </Button>
           </SpaceBetween>

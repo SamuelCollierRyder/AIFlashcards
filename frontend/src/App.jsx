@@ -4,7 +4,7 @@ import Button from "@cloudscape-design/components/button";
 import AddCardModal from "./AddCardModal";
 import ReviewCardModal from "./ReviewCardModal";
 import Layout from "./Layout";
-import { fetchWithAuth } from "./utils.js";
+import { fetchWithAuth, getLoggedInUser } from "./utils.js";
 
 export default function App() {
   const [addCardVisibile, setAddCardVisibile] = useState(false);
@@ -12,9 +12,10 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [index, setIndex] = useState(0);
   const [user, setUser] = useState(null);
+  const loggedIn = Boolean(user);
 
   async function fetchCards() {
-    fetch("http://localhost:3000/cards")
+    fetchWithAuth("http://localhost:5000/get-cards")
       .then((data) => data.json())
       .then((data) => {
         setCards(data);
@@ -26,11 +27,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetchWithAuth("http://localhost:5000/get-user")
-      .then((data) => data.json())
-      .then((data) => {
-        setUser(data.logged_in_as);
-      });
+    getLoggedInUser().then((user) => setUser(user));
   }, []);
 
   return (
@@ -54,8 +51,8 @@ export default function App() {
             <ReviewCardModal
               isVisible={reviewCardVisibile}
               setVisible={setReviewCardVisibile}
-              answer={cards[index].back}
-              question={cards[index].front}
+              answer={cards[index].answer}
+              question={cards[index].question}
               nextCard={() =>
                 cards.length - 1 > index ? setIndex(index + 1) : setIndex(0)
               }
@@ -64,17 +61,23 @@ export default function App() {
 
           <SpaceBetween alignItems="center" size="xs">
             <div>Hello {user}</div>
-            <Button
-              variant="primary"
-              onClick={() =>
-                cards.length ? setReviewCardVisibile(true) : null
-              }
-            >
-              Practice
-            </Button>
-            <Button onClick={() => setAddCardVisibile(true)}>
-              Create card
-            </Button>
+            {loggedIn ? (
+              <>
+                <Button
+                  variant={cards.length ? "primary" : "disabled"}
+                  onClick={() =>
+                    cards.length ? setReviewCardVisibile(true) : null
+                  }
+                >
+                  Practice
+                </Button>
+                <Button onClick={() => setAddCardVisibile(true)}>
+                  Create card
+                </Button>
+              </>
+            ) : (
+              <div>Log in to start practicing</div>
+            )}
           </SpaceBetween>
         </div>
       }

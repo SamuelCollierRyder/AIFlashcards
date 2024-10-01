@@ -4,20 +4,25 @@ import Box from "@cloudscape-design/components/box";
 import SpaceBetween from "@cloudscape-design/components/space-between";
 import Button from "@cloudscape-design/components/button";
 import Textarea from "@cloudscape-design/components/textarea";
+import { fetchWithAuth } from "./utils";
 
 async function addCard(input, fetchCards) {
-  await fetch("http://localhost:3000/cards", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(input),
-  });
+  fetchWithAuth(
+    "http://localhost:5000/add-card?question=" +
+      input.front +
+      "&answer=" +
+      input.back,
+  );
+  setTimeout(fetchCards, 1000); // TODO: Remove this hack
+  fetchCards();
+}
 
-  // Fetch cards so all new cards are visible when practicing
-  await fetchCards()
-
-  return;
+async function getAIAnswer(question, setAnswerText) {
+  fetchWithAuth("http://localhost:5000/get-answer?question=" + question)
+    .then((data) => data.json())
+    .then((data) => {
+      setAnswerText(data.answer);
+    });
 }
 
 export default function AddCardModal({ isVisible, setVisible, fetchCards }) {
@@ -30,15 +35,21 @@ export default function AddCardModal({ isVisible, setVisible, fetchCards }) {
       footer={
         <Box float="right">
           <SpaceBetween direction="horizontal" size="xs">
+            <Button
+              variant="link"
+              onClick={() => getAIAnswer(questionText, setAnswerText)}
+            >
+              Get AI answer
+            </Button>
             <Button variant="link" onClick={() => setVisible(false)}>
               Cancel
             </Button>
             <Button
               variant="primary"
               onClick={() => {
-                addCard({ front: questionText, back: answerText }, fetchCards)
-                setAnswerText("")
-                setQuestionText("")
+                addCard({ front: questionText, back: answerText }, fetchCards);
+                setAnswerText("");
+                setQuestionText("");
               }}
             >
               Add card

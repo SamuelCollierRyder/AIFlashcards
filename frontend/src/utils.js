@@ -9,3 +9,9 @@ export const fetchWithAuth = (url, options = {}) => {
     },
   });
 };
+
+export const getLoggedInUser = async () => {
+  const response = await fetchWithAuth("http://localhost:5000/get-user");
+  const data = await response.json();
+  return data.logged_in_as;
+}

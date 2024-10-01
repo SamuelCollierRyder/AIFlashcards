@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
+import { getLoggedInUser } from "./utils.js";
 
-export default function Header({ loggedIn = true}) {
+export default function Header({ }) {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => { // This might not be optimal, consider using a state management library
+    getLoggedInUser().then((user) => setLoggedIn(Boolean(user)));
+  }, [])
 
   return (
     <TopNavigation
@@ -18,29 +24,29 @@ export default function Header({ loggedIn = true}) {
       utilities={
         loggedIn
           ? [
-              {
-                type: "button",
-                text: "Log out",
-                onClick: () => {
-                  localStorage.removeItem("token"); 
-                  sessionStorage.removeItem("token"); 
-                  window.location.reload();
-                  navigate("/");
-                },
+            {
+              type: "button",
+              text: "Log out",
+              onClick: () => {
+                localStorage.removeItem("token");
+                sessionStorage.removeItem("token");
+                window.location.reload();
+                navigate("/");
               },
-            ]
+            },
+          ]
           : [
-              {
-                type: "button",
-                text: "Sign up",
-                onClick: () => navigate("/sign-up"),
-              },
-              {
-                type: "button",
-                text: "Log in",
-                onClick: () => navigate("/log-in"),
-              },
-            ]
+            {
+              type: "button",
+              text: "Sign up",
+              onClick: () => navigate("/sign-up"),
+            },
+            {
+              type: "button",
+              text: "Log in",
+              onClick: () => navigate("/log-in"),
+            },
+          ]
       }
     />
   );

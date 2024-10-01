@@ -1,4 +1,5 @@
 import json
+from openai import OpenAI
 from flask import Flask, jsonify, request
 from bson import json_util
 from flask_jwt_extended import (
@@ -17,11 +18,12 @@ with open("../secrets.json") as f:
     uri = data["mongodb_uri"]
     secret_key = data["secret_key"]
     jwt_secret_key = data["jwt_secret_key"]
+    open_ai_client = OpenAI(api_key=data["openai_key"])
 
 # Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi("1"))
-collection = client.flashCards.flashCards
-user_credentials = client.flashCards.userCredentials
+mongo_db_client = MongoClient(uri, server_api=ServerApi("1"))
+cards = mongo_db_client.flashCards.cards
+user_credentials = mongo_db_client.flashCards.userCredentials
 
 app = Flask(__name__)
 CORS(app)
@@ -30,33 +32,39 @@ app.config["JWT_SECRET_KEY"] = jwt_secret_key
 jwt = JWTManager(app)
 
 
-@app.route("/", methods=["GET"])
+# Card manipulation
+@app.route("/get-cards", methods=["GET", "POST"])
+@jwt_required()
 def get_cards():
-    results = list(collection.find())
-
-    # Use json_util to convert MongoDB data to JSON
-    json_data = json.loads(json_util.dumps(results))
-
-    # Return results as JSON
-    return jsonify(json_data)
+    results = cards.find({"email": get_jwt_identity()})
+    return json_util.dumps(results), 200
 
 
-@app.route("/add", methods=["GET", "POST"])
-def add():
-    result = collection.insert_one(
-        {"question": "What is the capital of France?", "answer": "Paris"}
+@app.route("/add-card", methods=["GET", "POST"])
+@jwt_required()
+def add_card():
+    question = request.args.get("question")
+    answer = request.args.get("answer")
+    result = cards.insert_one(
+        {
+            "question": question,
+            "answer": answer,
+            "email": get_jwt_identity(),
+        }
     )
     return jsonify({"inserted_id": str(result.inserted_id)}), 201
 
 
-@app.route("/sign-up", methods=["GET", "POST"])
+# User authentication
+@app.route("/sign-up", methods=["POST"])
 def sign_up():
     email = request.args.get("email")
     results = user_credentials.find_one({"email": email})
     if results is None:
-        password = request.args.get("password")
+        password = request.args.get("password", "")
 
-        if not email or not password:
+        print(email, password)
+        if email == "" or password == "":
             return jsonify({"error": "Email and password are required"}), 400
 
         result = user_credentials.insert_one(
@@ -68,7 +76,7 @@ def sign_up():
         return jsonify({"error": "User already exists"}), 400
 
 
-@app.route("/log-in", methods=["GET", "POST"])
+@app.route("/log-in", methods=["POST"])
 def login():
     email = request.args.get("email")
     password = request.args.get("password", "")
@@ -81,11 +89,6 @@ def login():
             return jsonify(access_token=access_token)
     return jsonify({"error": "Invalid email or password"}), 401
 
-@app.route("/protected", methods=["GET"])
-@jwt_required()
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
 
 @app.route("/get-user", methods=["GET"])
 @jwt_required()
@@ -93,6 +96,22 @@ def getUser():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
+# OpenAI API
+@app.route("/get-answer", methods=["POST", "GET"])
+@jwt_required()
+def get_answer():
+    question = request.args.get("question")
+    chat_completion = open_ai_client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"You are a bot for a flashcard app, give me the answer to this question: {question}",
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    answer = chat_completion.choices[0].message.content
+    return jsonify({"answer": answer}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
