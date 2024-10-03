@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import { applyTheme } from "@cloudscape-design/components/theming";
 import Header from "./Header";
@@ -21,10 +21,5 @@ export default function Layout({ content }) {
 
   applyTheme({ theme });
 
-  return (
-    <ContentLayout header={<Header />}>
-      { content }
-    </ContentLayout>
-  );
+  return <ContentLayout header={<Header />}>{content}</ContentLayout>;
 }
-

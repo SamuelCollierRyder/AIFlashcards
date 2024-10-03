@@ -24,10 +24,9 @@ async function logIn(email, password, setMessage, navigate) {
     }
 
     const data = await response.json();
-    const token = data.access_token;
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("refresh_token", data.refresh_token);
     navigate("/");
-    return token;
   } catch (error) {
     console.error("Login failed:", error);
     setMessage("Login failed");
@@ -64,7 +63,9 @@ export default function SignUp() {
               placeholder="Password"
               type="password"
             />
-            <Button onClick={() => logIn(email, password, setMessage, navigate)}>
+            <Button
+              onClick={() => logIn(email, password, setMessage, navigate)}
+            >
               Log in
             </Button>
           </SpaceBetween>

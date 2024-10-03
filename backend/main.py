@@ -5,6 +5,7 @@ from bson import json_util
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
+    create_refresh_token,
     jwt_required,
     get_jwt_identity,
 )
@@ -86,7 +87,8 @@ def login():
         hash_password = credential_results.get("password")
         if check_password_hash(hash_password, password):
             access_token = create_access_token(identity=email)
-            return jsonify(access_token=access_token)
+            refresh_token = create_refresh_token(identity=email)
+            return jsonify(access_token=access_token, refresh_token=refresh_token), 200
     return jsonify({"error": "Invalid email or password"}), 401
 
 
@@ -95,6 +97,15 @@ def login():
 def getUser():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
+
+
+@app.route("/refresh-token", methods=["GET"])
+@jwt_required(refresh=True)
+def refresh():
+    current_user = get_jwt_identity()
+    access_token = create_access_token(identity=current_user)
+    return jsonify(access_token=access_token), 200
+
 
 # OpenAI API
 @app.route("/get-answer", methods=["POST", "GET"])
@@ -108,10 +119,11 @@ def get_answer():
                 "content": f"You are a bot for a flashcard app, give me the answer to this question: {question}",
             }
         ],
-        model="gpt-3.5-turbo",
+        model="gpt-4",
     )
     answer = chat_completion.choices[0].message.content
     return jsonify({"answer": answer}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)

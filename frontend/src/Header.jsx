@@ -5,11 +5,12 @@ import { getLoggedInUser } from "./utils.js";
 
 export default function Header({ }) {
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => { // This might not be optimal, consider using a state management library
+  useEffect(() => {
+    // This might not be optimal, consider using a state management library
     getLoggedInUser().then((user) => setLoggedIn(Boolean(user)));
-  }, [])
+  }, []);
 
   return (
     <TopNavigation
