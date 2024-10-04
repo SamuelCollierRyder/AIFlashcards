@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
 import { getLoggedInUser } from "./utils.js";
 
-export default function Header({ }) {
+export default function Header({}) {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -25,29 +25,36 @@ export default function Header({ }) {
       utilities={
         loggedIn
           ? [
-            {
-              type: "button",
-              text: "Log out",
-              onClick: () => {
-                localStorage.removeItem("token");
-                sessionStorage.removeItem("token");
-                window.location.reload();
-                navigate("/");
+              {
+                type: "button",
+                text: "View cards",
+                onClick: () => {
+                  navigate("/view-cards");
+                },
               },
-            },
-          ]
+              {
+                type: "button",
+                text: "Log out",
+                onClick: () => {
+                  localStorage.removeItem("token");
+                  sessionStorage.removeItem("token");
+                  window.location.reload();
+                  navigate("/");
+                },
+              },
+            ]
           : [
-            {
-              type: "button",
-              text: "Sign up",
-              onClick: () => navigate("/sign-up"),
-            },
-            {
-              type: "button",
-              text: "Log in",
-              onClick: () => navigate("/log-in"),
-            },
-          ]
+              {
+                type: "button",
+                text: "Sign up",
+                onClick: () => navigate("/sign-up"),
+              },
+              {
+                type: "button",
+                text: "Log in",
+                onClick: () => navigate("/log-in"),
+              },
+            ]
       }
     />
   );

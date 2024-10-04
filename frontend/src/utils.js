@@ -1,5 +1,5 @@
-export const fetchWithAuth = async (url, options = {}) => {
-  refreshToken();
+export const fetchWithAuth = async (url, bodyContent=null, options = {}) => {
+  await refreshToken();
   return fetch(url, {
     ...options,
     headers: {
@@ -7,12 +7,13 @@ export const fetchWithAuth = async (url, options = {}) => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({content: bodyContent}),
   });
 };
 
-export const refreshToken = (options = {}) => {
+export const refreshToken = async (options = {}) => {
   const token = localStorage.getItem("refresh_token");
-  fetch("http://localhost:5000/refresh-token", {
+  return fetch("http://localhost:5000/refresh-token", {
     ...options,
     headers: {
       ...options.headers,

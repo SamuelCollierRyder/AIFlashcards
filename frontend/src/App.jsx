@@ -4,6 +4,7 @@ import Button from "@cloudscape-design/components/button";
 import AddCardModal from "./AddCardModal";
 import ReviewCardModal from "./ReviewCardModal";
 import Layout from "./Layout";
+import FileUpload from "./FileUpload";
 import { fetchWithAuth, getLoggedInUser } from "./utils.js";
 
 export default function App() {
@@ -74,6 +75,7 @@ export default function App() {
                 <Button onClick={() => setAddCardVisibile(true)}>
                   Create card
                 </Button>
+                <FileUpload text={"Create cards from file"}/>
               </>
             ) : (
               <div>Log in to start practicing</div>

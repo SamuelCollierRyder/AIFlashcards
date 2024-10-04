@@ -125,5 +125,22 @@ def get_answer():
     return jsonify({"answer": answer}), 200
 
 
+@app.route("/get-cards-from-file", methods=["POST", "GET"])
+@jwt_required()
+def get_cards_from_file():
+    content = request.form.get("content")
+    chat_completion = open_ai_client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Create questions and answers based on the context of this text. Only return a JSON object with questions and answers. Content: {content}""",
+            }
+        ],
+        model="gpt-4",
+    )
+    answer = chat_completion.choices[0].message.content
+    return jsonify({"answer": answer}), 200
+
+
 if __name__ == "__main__":
     app.run(debug=True)
