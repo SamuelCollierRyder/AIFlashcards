@@ -25,7 +25,8 @@ export default function FileUpload({ text }) {
     if (fileContent) {
       fetchWithAuth(
         `http://localhost:5000/get-cards-from-file`,
-        bodyContent=fileContent,
+        fileContent,
+        "POST"
       ).then((data) =>
         data.json().then((data) => {
           console.log(data);

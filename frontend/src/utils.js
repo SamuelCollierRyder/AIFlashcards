@@ -1,13 +1,20 @@
-export const fetchWithAuth = async (url, bodyContent=null, options = {}) => {
+export const fetchWithAuth = async (
+  url,
+  bodyContent = null,
+  method = "GET",
+  options = {},
+) => {
   await refreshToken();
+  const body = bodyContent ? JSON.stringify({ content: bodyContent }) : null;
   return fetch(url, {
+    method: method,
     ...options,
     headers: {
       ...options.headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({content: bodyContent}),
+    body: body,
   });
 };
 
@@ -20,11 +27,15 @@ export const refreshToken = async (options = {}) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-  }).then((response) => response.json().then((data) => {localStorage.setItem("token", data.access_token)}));
+  }).then((response) =>
+    response.json().then((data) => {
+      localStorage.setItem("token", data.access_token);
+    }),
+  );
 };
 
 export const getLoggedInUser = async () => {
   const response = await fetchWithAuth("http://localhost:5000/get-user");
   const data = await response.json();
   return data.logged_in_as;
-}
+};
