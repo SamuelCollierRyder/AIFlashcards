@@ -1,7 +1,8 @@
 import json
+import datetime
 from openai import OpenAI
 from flask import Flask, jsonify, request
-from bson import json_util
+from bson import json_util, ObjectId
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -37,7 +38,9 @@ jwt = JWTManager(app)
 @app.route("/get-cards", methods=["GET", "POST"])
 @jwt_required()
 def get_cards():
-    results = cards.find({"email": get_jwt_identity()})
+    results = cards.find(
+        {"email": get_jwt_identity(), "timeStamp": {"$lte": datetime.datetime.now()}}
+    )
     return json_util.dumps(results), 200
 
 
@@ -51,9 +54,22 @@ def add_card():
             "question": question,
             "answer": answer,
             "email": get_jwt_identity(),
+            "timeStamp": datetime.datetime.now(),
         }
     )
     return jsonify({"inserted_id": str(result.inserted_id)}), 201
+
+
+@app.route("/update-time", methods=["GET", "POST"])
+@jwt_required()
+def update_time():
+    id = request.args.get("id")
+    result = cards.update_one(
+        {"_id": ObjectId(id), "email": get_jwt_identity()},
+        {"$set": {"timeStamp": datetime.datetime.now()}},
+    )
+    print(result)
+    return jsonify(result.acknowledged), 201
 
 
 # User authentication
@@ -125,21 +141,48 @@ def get_answer():
     return jsonify({"answer": answer}), 200
 
 
-@app.route("/get-cards-from-file", methods=["POST", "GET"])
+@app.route("/get-cards-from-file", methods=["POST"])
 @jwt_required()
 def get_cards_from_file():
-    content = request.form.get("content")
-    chat_completion = open_ai_client.chat.completions.create(
+    text = request.get_json()["content"]
+    response = open_ai_client.chat.completions.create(
+        model="gpt-4o",
         messages=[
             {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": """You are a assistant for creating questions and answers 
+                        based on contents of lectures. Return the questions and answers 
+                        in the following format (NOTE: ONLY RETURN THESE VALUES, THE 
+                        RESULT MUST BE A JSON OBJECT, NO ESCAPE CHARACTERS AND DOUBLE BACKSLASHES): 
+                        [{'question': 'question1', 'answer': 'answer1'}]""",
+                    }
+                ],
+            },
+            {
                 "role": "user",
-                "content": f"""Create questions and answers based on the context of this text. Only return a JSON object with questions and answers. Content: {content}""",
-            }
+                "content": [{"type": "text", "text": f"Lecture notes: {text}"}],
+            },
         ],
-        model="gpt-4",
     )
-    answer = chat_completion.choices[0].message.content
-    return jsonify({"answer": answer}), 200
+    response = response.choices[0].message.content or ""
+    response = response.replace("'", '"')
+    try:
+        json_response = json.loads(response)
+        for card in json_response:
+            cards.insert_one(
+                {
+                    "question": card["question"],
+                    "answer": card["answer"],
+                    "email": get_jwt_identity(),
+                }
+            )
+        return jsonify(f"{len(json_response)} cards added"), 200
+
+    except Exception as e:
+        return jsonify({f"error, {str(e)}": "Invalid response"}), 400
 
 
 if __name__ == "__main__":

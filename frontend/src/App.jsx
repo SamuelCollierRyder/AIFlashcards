@@ -54,6 +54,7 @@ export default function App() {
               setVisible={setReviewCardVisibile}
               answer={cards[index].answer}
               question={cards[index].question}
+              id={cards[index]._id.$oid}
               nextCard={() =>
                 cards.length - 1 > index ? setIndex(index + 1) : setIndex(0)
               }
@@ -75,7 +76,7 @@ export default function App() {
                 <Button onClick={() => setAddCardVisibile(true)}>
                   Create card
                 </Button>
-                <FileUpload text={"Create cards from file"}/>
+                <FileUpload text={"Create cards from file"} />
               </>
             ) : (
               <div>Log in to start practicing</div>
