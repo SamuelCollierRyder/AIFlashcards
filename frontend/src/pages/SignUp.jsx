@@ -48,7 +48,7 @@ export default function SignUp() {
 
           <div className="form-control mt-6">
             <button type="submit" className="btn btn-primary">
-              Login
+              Sign up
             </button>
           </div>
         </form>

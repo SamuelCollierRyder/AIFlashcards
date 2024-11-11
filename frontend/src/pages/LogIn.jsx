@@ -35,7 +35,7 @@ export default function LogIn() {
           />
           <div className="form-control mt-6">
             <button type="submit" className="btn btn-primary">
-              Login
+              Log in
             </button>
           </div>
         </form>
