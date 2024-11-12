@@ -18,6 +18,9 @@ export default function Header({ signedIn = false }) {
             <li>
               <a href="/study">Study</a>
             </li>
+            <li>
+              <a href="/study">Sign out</a>
+            </li>
           </ul>
         ) : (
           <ul className="menu menu-horizontal px-1">

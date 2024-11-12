@@ -43,11 +43,13 @@ export default function AddCards() {
             <textarea
               className="textarea textarea-bordered w-full resize-none join-item"
               placeholder="Question"
+              spellCheck="true"
               id="question"
             ></textarea>
             <textarea
               className="textarea textarea-bordered w-full resize-none join-item"
               placeholder="Answer"
+              spellCheck="true"
               id="answer"
             ></textarea>
           </div>
