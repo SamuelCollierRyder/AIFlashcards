@@ -4,7 +4,7 @@ export default function Header({ signedIn = false }) {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Ponder AI</a>
+        <a className="btn btn-ghost text-xl" href="/">Ponder AI</a>
       </div>
       <div className="flex-none">
         {signedIn ? (

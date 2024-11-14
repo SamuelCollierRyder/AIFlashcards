@@ -21,20 +21,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/log-in",
-    element: <LogIn/>,
+    element: <LogIn />,
   },
   {
     path: "/add-cards",
-    element: <AddCards/>,
+    element: <AddCards />,
   },
   {
     path: "/view-cards",
-    element: <ViewCards/>,
+    element: <ViewCards />,
   },
   {
     path: "/study",
-    element: <Study/>,
-  }
+    element: <Study />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
