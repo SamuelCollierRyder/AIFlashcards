@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+import Layout from "../templates/Layout";
 
 export default function SignUp() {
   const [alertMessage, setAlertMessage] = useState("");
@@ -45,57 +46,62 @@ export default function SignUp() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="sm:w-4/6 lg:w-3/6 mx-auto">
-        <form className="card-body" onSubmit={handleSubmit}>
-          <label className="label">
-            <span className="label-text">Email</span>
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email"
-            className="input input-bordered"
-            required
-          />
+    <Layout
+      authRequired="false"
+      content={
+        <>
+          <Header />
+          <div className="sm:w-4/6 lg:w-3/6 mx-auto">
+            <form className="card-body" onSubmit={handleSubmit}>
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Email"
+                className="input input-bordered"
+                required
+              />
 
-          <label className="label">
-            <span className="label-text">Password</span>
-          </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            className="input input-bordered"
-            required
-          />
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                className="input input-bordered"
+                required
+              />
 
-          <label className="label">
-            <span className="label-text">Confirm password</span>
-          </label>
-          <input
-            id="passwordConfirm"
-            type="password"
-            placeholder="Confirm Password"
-            className="input input-bordered"
-            required
-          />
-          {alertMessage ? (
-            <div role="alert" className={`alert ${alertType}`}>
-              <span>{alertMessage}</span>
-            </div>
-          ) : (
-            <></>
-          )}
+              <label className="label">
+                <span className="label-text">Confirm password</span>
+              </label>
+              <input
+                id="passwordConfirm"
+                type="password"
+                placeholder="Confirm Password"
+                className="input input-bordered"
+                required
+              />
+              {alertMessage ? (
+                <div role="alert" className={`alert ${alertType}`}>
+                  <span>{alertMessage}</span>
+                </div>
+              ) : (
+                <></>
+              )}
 
-          <div className="form-control mt-6">
-            <button type="submit" className="btn btn-primary">
-              Sign up
-            </button>
+              <div className="form-control mt-6">
+                <button type="submit" className="btn btn-primary">
+                  Sign up
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </>
+        </>
+      }
+    />
   );
 }

@@ -1,10 +1,12 @@
 import React from "react";
 
-export default function Header({ signedIn = false }) {
+export default function Header({ signedIn = false, navigate }) {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl" href="/">Ponder AI</a>
+        <a className="btn btn-ghost text-xl" href="/">
+          Ponder AI
+        </a>
       </div>
       <div className="flex-none">
         {signedIn ? (
@@ -19,7 +21,15 @@ export default function Header({ signedIn = false }) {
               <a href="/study">Study</a>
             </li>
             <li>
-              <a href="/study">Sign out</a>
+              <a
+                onClick={() => {
+                  // localStorage.clear("token");
+                  // localStorage.clear("refresh_token");
+                  navigate("/");
+                }}
+              >
+                Sign out
+              </a>
             </li>
           </ul>
         ) : (

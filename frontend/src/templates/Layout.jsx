@@ -11,14 +11,14 @@ export default function Layout({ content, authRequired }) {
       if (!user && authRequired) {
         navigate("/");
       } else if (user && !authRequired) {
-        navigate("add-cards");
+        navigate("/add-cards");
       }
     });
   });
 
   return (
     <>
-      <Header />
+      <Header signedIn={authRequired} navigate={navigate}/>
       {content}
     </>
   );

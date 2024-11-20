@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
 import { MathJax } from "better-react-mathjax";
 import { useNavigate } from "react-router-dom";
+import Layout from "../templates/Layout";
 
 export default function AddCards({qwe}) {
   console.log(qwe);
@@ -24,6 +24,7 @@ export default function AddCards({qwe}) {
   };
 
   return (
+    <Layout authRequired="true" content={
     <>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
@@ -39,7 +40,6 @@ export default function AddCards({qwe}) {
         </div>
       </dialog>
 
-      <Header signedIn={true} />
       <div className="sm:w-4/6 lg:w-3/6 mx-auto my-10">
         <form onSubmit={handleSubmit}>
           <div className="join-vertical space-y-2">
@@ -67,5 +67,6 @@ export default function AddCards({qwe}) {
         </form>
       </div>
     </>
+    } />
   );
 }
