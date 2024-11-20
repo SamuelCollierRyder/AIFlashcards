@@ -2,12 +2,46 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 
 export default function SignUp() {
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents page reload on form submission
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const passwordConfirm = e.target.passwordConfirm.value;
+
+    if (password !== passwordConfirm) {
+      setAlertMessage("Passwords do not match");
+      setAlertType("alert-error");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/sign-up`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          passwordConfirm: passwordConfirm,
+        }),
+      });
+
+      if (!response.ok) {
+        setAlertMessage("Email already exists");
+        setAlertType("alert-error");
+      } else {
+        setAlertMessage("User created successfully");
+        setAlertType("alert-success");
+      }
+    } catch (error) {
+      setAlertMessage("Error creating user");
+      setAlertType("alert-error");
+      throw error;
+    }
   };
 
   return (
@@ -19,6 +53,7 @@ export default function SignUp() {
             <span className="label-text">Email</span>
           </label>
           <input
+            id="email"
             type="email"
             placeholder="Email"
             className="input input-bordered"
@@ -29,6 +64,7 @@ export default function SignUp() {
             <span className="label-text">Password</span>
           </label>
           <input
+            id="password"
             type="password"
             placeholder="Password"
             className="input input-bordered"
@@ -39,11 +75,19 @@ export default function SignUp() {
             <span className="label-text">Confirm password</span>
           </label>
           <input
+            id="passwordConfirm"
             type="password"
             placeholder="Confirm Password"
             className="input input-bordered"
             required
           />
+          {alertMessage ? (
+            <div role="alert" className={`alert ${alertType}`}>
+              <span>{alertMessage}</span>
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className="form-control mt-6">
             <button type="submit" className="btn btn-primary">

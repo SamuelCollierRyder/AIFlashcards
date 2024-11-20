@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { MathJax } from "better-react-mathjax";
+import { useNavigate } from "react-router-dom";
 
-export default function AddCards() {
+export default function AddCards({qwe}) {
+  console.log(qwe);
+  const navigate = useNavigate();
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 

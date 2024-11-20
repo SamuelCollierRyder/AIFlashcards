@@ -75,10 +75,11 @@ def update_time():
 # User authentication
 @app.route("/sign-up", methods=["POST"])
 def sign_up():
-    email = request.args.get("email")
+    request_data = request.get_json()
+    email = request_data.get("email")
     results = user_credentials.find_one({"email": email})
     if results is None:
-        password = request.args.get("password", "")
+        password = request_data.get("password")
 
         print(email, password)
         if email == "" or password == "":
@@ -95,8 +96,9 @@ def sign_up():
 
 @app.route("/log-in", methods=["POST"])
 def login():
-    email = request.args.get("email")
-    password = request.args.get("password", "")
+    request_data = request.get_json()
+    email = request_data.get("email")
+    password = request_data.get("password")
     credential_results = user_credentials.find_one({"email": email})
 
     if credential_results:
