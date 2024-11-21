@@ -36,6 +36,7 @@ export default function LogIn() {
 
   return (
     <Layout
+      authRequired={false}
       content={
         <>
           <div className="sm:w-4/6 lg:w-3/6 mx-auto">

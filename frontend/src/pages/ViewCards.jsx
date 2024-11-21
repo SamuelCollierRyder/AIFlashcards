@@ -1,10 +1,9 @@
-import Header from "../components/Header";
 import Layout from "../templates/Layout";
 
 export default function ViewCards() {
   return (
     <Layout
-      authRequired="true"
+      authRequired={true}
       content={
         <>
           <div className="overflow-x-auto">

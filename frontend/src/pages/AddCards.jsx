@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../templates/Layout";
 
 export default function AddCards({qwe}) {
-  console.log(qwe);
   const navigate = useNavigate();
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -24,7 +23,7 @@ export default function AddCards({qwe}) {
   };
 
   return (
-    <Layout authRequired="true" content={
+    <Layout authRequired={true} content={
     <>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">

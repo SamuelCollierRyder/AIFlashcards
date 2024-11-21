@@ -4,7 +4,7 @@ export default function Header({ signedIn = false, navigate }) {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl" href="/">
+        <a className="btn btn-ghost text-xl">
           Ponder AI
         </a>
       </div>
@@ -23,9 +23,9 @@ export default function Header({ signedIn = false, navigate }) {
             <li>
               <a
                 onClick={() => {
-                  // localStorage.clear("token");
-                  // localStorage.clear("refresh_token");
-                  navigate("/");
+                  localStorage.clear("token");
+                  localStorage.clear("refresh_token");
+                  navigate("/add-cards");
                 }}
               >
                 Sign out

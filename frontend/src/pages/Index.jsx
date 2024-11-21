@@ -6,13 +6,11 @@ export default function LogIn() {
     e.preventDefault(); // Prevents page reload on form submission
     const email = e.target[0].value;
     const password = e.target[1].value;
-    console.log("Email:", email);
-    console.log("Password:", password);
   };
 
   return (
     <Layout
-      authRequired="false"
+      authRequired={false}
       content={
         <>
           <div

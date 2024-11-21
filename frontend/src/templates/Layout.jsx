@@ -9,16 +9,17 @@ export default function Layout({ content, authRequired }) {
   useEffect(() => {
     getLoggedInUser().then((user) => {
       if (!user && authRequired) {
+        console.log("User not logged in");
         navigate("/");
       } else if (user && !authRequired) {
         navigate("/add-cards");
       }
     });
-  });
+  }, []);
 
   return (
     <>
-      <Header signedIn={authRequired} navigate={navigate}/>
+      <Header signedIn={authRequired} navigate={navigate} />
       {content}
     </>
   );
