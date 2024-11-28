@@ -1,9 +1,12 @@
+import { useSearchParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { MathJax } from "better-react-mathjax";
 import Layout from "../templates/Layout";
 import { fetchWithAuth } from "../utils/auth";
 
 export default function AddCards() {
+  const [searchParams] = useSearchParams();
+  const [id, setId] = useState(null);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
@@ -18,17 +21,44 @@ export default function AddCards() {
       setAnswer(answer);
       document.getElementById("preview_monad").showModal();
     } else if (event === "submit") {
-      console.log(question, answer);
+      if (id) {
+        await fetchWithAuth(
+          "http://localhost:5000/remove-card",
+          { id: id },
+          "DELETE",
+        );
+      }
+
       await fetchWithAuth(
-        "http://localhost:5000/add-card?question=" +
-          question +
-          "&answer=" +
-          answer,
+        "http://localhost:5000/add-card?question=",
+        {
+          question: question,
+          answer: answer,
+        },
+        "POST",
       );
       e.target.question.value = "";
       e.target.answer.value = "";
     }
   };
+
+  useEffect(() => {
+    const question = searchParams.get("question");
+    if (question) {
+      setQuestion(question);
+      document.getElementById("question").value = question;
+    }
+
+    const answer = searchParams.get("answer");
+    if (answer) {
+      setAnswer(answer);
+      document.getElementById("answer").value = answer;
+    }
+    const id = searchParams.get("id");
+    if (id) {
+      setId(id);
+    }
+  }, []);
 
   return (
     <Layout

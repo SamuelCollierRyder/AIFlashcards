@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MathJax } from "better-react-mathjax";
 import Layout from "../templates/Layout";
 import { fetchWithAuth } from "../utils/auth";
 
@@ -12,7 +13,6 @@ export default function Study() {
     fetchWithAuth("http://localhost:5000/get-cards")
       .then((data) => data.json())
       .then((data) => {
-        console.log(data);
         if (data.length === 0) {
           setMessage("No cards available");
           return;
@@ -35,8 +35,12 @@ export default function Study() {
       authRequired={true}
       content={
         <div className="flex flex-col items-center">
-          <div>{message || cards[cardIndex].question}</div>
-          <div>{showAnswer ? cards[cardIndex].answer : " "}</div>
+          <div>
+            <MathJax>{message || cards[cardIndex].question}</MathJax>
+          </div>
+          <div>
+            <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>
+          </div>
           <div className="fixed bottom-0">
             {!showAnswer ? (
               <button
@@ -47,10 +51,27 @@ export default function Study() {
               </button>
             ) : (
               <>
-                <button onClick={() => nextCard()} className="btn btn-error m-2">Again</button>
-                <button onClick={() => nextCard()} className="btn btn-warning m-2">Hard</button>
-                <button onClick={() => nextCard()} className="btn btn-info m-2">Good</button>
-                <button onClick={() => nextCard()} className="btn btn-success m-2">Easy</button>
+                <button
+                  onClick={() => nextCard()}
+                  className="btn btn-error m-2"
+                >
+                  Again
+                </button>
+                <button
+                  onClick={() => nextCard()}
+                  className="btn btn-warning m-2"
+                >
+                  Hard
+                </button>
+                <button onClick={() => nextCard()} className="btn btn-info m-2">
+                  Good
+                </button>
+                <button
+                  onClick={() => nextCard()}
+                  className="btn btn-success m-2"
+                >
+                  Easy
+                </button>
               </>
             )}
           </div>

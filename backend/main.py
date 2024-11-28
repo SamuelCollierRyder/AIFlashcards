@@ -47,8 +47,9 @@ def get_cards():
 @app.route("/add-card", methods=["GET", "POST"])
 @jwt_required()
 def add_card():
-    question = request.args.get("question")
-    answer = request.args.get("answer")
+    request_data = request.get_json()
+    question = request_data.get('content').get("question")
+    answer = request_data.get('content').get("answer")
     result = cards.insert_one(
         {
             "question": question,
@@ -58,6 +59,15 @@ def add_card():
         }
     )
     return jsonify({"inserted_id": str(result.inserted_id)}), 201
+
+
+@app.route("/remove-card", methods=["DELETE"])
+@jwt_required()
+def remove_card():
+    request_data = request.get_json()
+    id = request_data.get("content").get("id")
+    cards.delete_one({"_id": ObjectId(id), "email": get_jwt_identity()})
+    return jsonify({"deleted_id": id}), 200
 
 
 @app.route("/update-time", methods=["GET", "POST"])

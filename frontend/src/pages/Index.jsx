@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import Layout from "../templates/Layout";
 
 export default function LogIn() {
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents page reload on form submission
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-  };
-
   return (
     <Layout
       authRequired={false}

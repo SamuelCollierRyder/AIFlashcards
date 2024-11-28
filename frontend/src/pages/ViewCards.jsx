@@ -1,6 +1,36 @@
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Layout from "../templates/Layout";
+import { fetchWithAuth } from "../utils/auth";
 
 export default function ViewCards() {
+  const [rowInfo, setRowInfo] = useState([]);
+  const navigate = useNavigate();
+
+  async function fetchCards() {
+    await fetchWithAuth("http://localhost:5000/get-cards")
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.length === 0) {
+          return;
+        }
+        setRowInfo(data);
+      });
+  }
+
+  async function deleteCard(id) {
+    setRowInfo(rowInfo.filter((row) => row._id.$oid !== id));
+    await fetchWithAuth(
+      "http://localhost:5000/remove-card",
+      { id: id },
+      "DELETE",
+    );
+  }
+
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
   return (
     <Layout
       authRequired={true}
@@ -12,46 +42,28 @@ export default function ViewCards() {
               <thead>
                 <tr>
                   <th></th>
-                  <th>ID</th>
                   <th>Question</th>
                   <th>Answer</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {/* row 1 */}
-                <tr>
-                  <th>1</th>
-                  <td>Cy Ganderton</td>
-                  <td>Quality Control Specialist</td>
-                  <td>Blue</td>
-                  <td>
-                    <button className="btn btn-warning p-3 m-1">Edit</button>
-                    <button className="btn btn-error p-3">Delete</button>
-                  </td>
-                </tr>
-                {/* row 2 */}
-                <tr>
-                  <th>2</th>
-                  <td>Hart Hagerty</td>
-                  <td>Desktop Support Technician</td>
-                  <td>Purple</td>
-                  <td>
-                    <button className="btn btn-warning p-3 m-1">Edit</button>
-                    <button className="btn btn-error p-3">Delete</button>
-                  </td>
-                </tr>
-                {/* row 3 */}
-                <tr>
-                  <th>3</th>
-                  <td>Brice Swyre</td>
-                  <td>Tax Accountant</td>
-                  <td>Red</td>
-                  <td>
-                    <button className="btn btn-warning p-3 m-1">Edit</button>
-                    <button className="btn btn-error p-3">Delete</button>
-                  </td>
-                </tr>
+                {rowInfo.map((row) => (
+                  <tr key={row._id.$oid}>
+                    <th></th>
+                    <td>{row.question}</td>
+                    <td>{row.answer}</td>
+                    <td>
+                      <button onClick={() => navigate(`/add-cards?question=${row.question}&answer=${row.answer}&id=${row._id.$oid}`)} className="btn btn-warning p-3 m-1">Edit</button>
+                      <button
+                        onClick={() => deleteCard(row._id.$oid)}
+                        className="btn btn-error p-3"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
