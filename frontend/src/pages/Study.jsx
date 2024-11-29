@@ -10,7 +10,7 @@ export default function Study() {
   const [showAnswer, setShowAnswer] = useState(false);
 
   async function fetchCards() {
-    fetchWithAuth("http://localhost:5000/get-cards")
+    fetchWithAuth("http://localhost:5000/get-current-cards")
       .then((data) => data.json())
       .then((data) => {
         if (data.length === 0) {
@@ -19,6 +19,17 @@ export default function Study() {
         }
         setCards(data);
       });
+  }
+
+  async function updateTime() {
+    await fetchWithAuth(
+      "http://localhost:5000/update-time",
+      { id: cards[cardIndex]._id.$oid },
+      "POST",
+    );
+    await fetchCards();
+    setCardIndex((cardIndex + 1) % cards.length);
+    setShowAnswer(false);
   }
 
   function nextCard() {
@@ -67,7 +78,9 @@ export default function Study() {
                   Good
                 </button>
                 <button
-                  onClick={() => nextCard()}
+                  onClick={() => {
+                    updateTime();
+                  }}
                   className="btn btn-success m-2"
                 >
                   Easy

@@ -9,6 +9,7 @@ export default function AddCards() {
   const [id, setId] = useState(null);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [loadingAIAnswer, setLoadingAIAnswer] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents page reload on form submission
@@ -30,7 +31,7 @@ export default function AddCards() {
       }
 
       await fetchWithAuth(
-        "http://localhost:5000/add-card?question=",
+        "http://localhost:5000/add-card",
         {
           question: question,
           answer: answer,
@@ -39,6 +40,15 @@ export default function AddCards() {
       );
       e.target.question.value = "";
       e.target.answer.value = "";
+    } else if (event === "aiAnswer") {
+      setLoadingAIAnswer(true);
+      const response = await fetchWithAuth(
+        `http://localhost:5000/get-answer?question=${question}`,
+      );
+      const data = await response.json();
+      document.getElementById("answer").value = data.answer;
+      setAnswer(data.answer);
+      setLoadingAIAnswer(false);
     }
   };
 
@@ -93,9 +103,13 @@ export default function AddCards() {
                   placeholder="Answer"
                   spellCheck="true"
                   id="answer"
+                  disabled={loadingAIAnswer}
                 ></textarea>
               </div>
               <div className="flex justify-end">
+                <button id="aiAnswer" className="btn mx-2" disabled={loadingAIAnswer}>
+                  Generate AI answer
+                </button>
                 <button id="preview" className="btn mx-2">
                   Show preview
                 </button>
