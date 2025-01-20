@@ -10,7 +10,7 @@ export default function Layout({ content, authRequired }) {
     getLoggedInUser().then((user) => {
       if (!user && authRequired) {
         console.log("User not logged in");
-        navigate("/");
+        navigate("/sign-up");
       } else if (user && !authRequired) {
         navigate("/add-cards");
       }

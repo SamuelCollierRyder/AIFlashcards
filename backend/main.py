@@ -38,6 +38,13 @@ jwt = JWTManager(app)
 @app.route("/get-cards", methods=["GET", "POST"])
 @jwt_required()
 def get_cards():
+    results = cards.find({"email": get_jwt_identity()})
+    return json_util.dumps(results), 200
+
+
+@app.route("/get-current-cards", methods=["GET", "POST"])
+@jwt_required()
+def get_current_cards():
     results = cards.find(
         {"email": get_jwt_identity(), "timeStamp": {"$lte": datetime.datetime.now()}}
     )
@@ -48,8 +55,8 @@ def get_cards():
 @jwt_required()
 def add_card():
     request_data = request.get_json()
-    question = request_data.get('content').get("question")
-    answer = request_data.get('content').get("answer")
+    question = request_data.get("content").get("question")
+    answer = request_data.get("content").get("answer")
     result = cards.insert_one(
         {
             "question": question,
@@ -73,12 +80,13 @@ def remove_card():
 @app.route("/update-time", methods=["GET", "POST"])
 @jwt_required()
 def update_time():
-    id = request.args.get("id")
+    request_data = request.get_json()
+    id = request_data.get("content").get("id")
+    time = int(request_data.get("content").get("time"))
     result = cards.update_one(
         {"_id": ObjectId(id), "email": get_jwt_identity()},
-        {"$set": {"timeStamp": datetime.datetime.now()}},
+        {"$set": {"timeStamp": datetime.datetime.now() + datetime.timedelta(hours=time)}},
     )
-    print(result)
     return jsonify(result.acknowledged), 201
 
 
