@@ -49,7 +49,7 @@ export default function Study() {
       content={
         <div className="flex flex-col items-center">
           <div>
-            <MathJax>{message || cards[cardIndex].question}</MathJax>
+            <MathJax>{message || cards[cardIndex].question || ""}</MathJax>
           </div>
           <div>
             <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>

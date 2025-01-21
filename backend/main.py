@@ -108,6 +108,23 @@ def update_time():
     )
     return jsonify(result.acknowledged), 201
 
+@app.route("/update-card", methods=["GET", "POST"])
+@jwt_required()
+def update_text():
+    request_data = request.get_json()
+    id = request_data.get("content").get("id")
+    question = request_data.get("content").get("question")
+    answer = request_data.get("content").get("answer")
+    result = cards.update_one(
+        {"_id": ObjectId(id), "email": get_jwt_identity()},
+        {
+            "$set": {
+                "question": question,
+                "answer": answer,
+            }
+        },
+    )
+    return jsonify(result.acknowledged), 201
 
 # User authentication
 @app.route("/sign-up", methods=["POST"])

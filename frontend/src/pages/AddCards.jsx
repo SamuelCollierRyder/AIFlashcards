@@ -24,22 +24,22 @@ export default function AddCards() {
     } else if (event === "submit") {
       if (id) {
         await fetchWithAuth(
-          "http://localhost:5000/remove-card",
-          { id: id },
-          "DELETE",
+          "http://localhost:5000/update-card",
+          { id: id, question: question, answer: answer },
+          "POST",
         );
+      } else {
+        await fetchWithAuth(
+          "http://localhost:5000/add-card",
+          {
+            question: question,
+            answer: answer,
+          },
+          "POST",
+        );
+        e.target.question.value = "";
+        e.target.answer.value = "";
       }
-
-      await fetchWithAuth(
-        "http://localhost:5000/add-card",
-        {
-          question: question,
-          answer: answer,
-        },
-        "POST",
-      );
-      e.target.question.value = "";
-      e.target.answer.value = "";
     } else if (event === "aiAnswer") {
       setLoadingAIAnswer(true);
       const response = await fetchWithAuth(
@@ -107,7 +107,11 @@ export default function AddCards() {
                 ></textarea>
               </div>
               <div className="flex justify-end">
-                <button id="aiAnswer" className="btn mx-2" disabled={loadingAIAnswer}>
+                <button
+                  id="aiAnswer"
+                  className="btn mx-2"
+                  disabled={loadingAIAnswer}
+                >
                   Generate AI answer
                 </button>
                 <button id="preview" className="btn mx-2">

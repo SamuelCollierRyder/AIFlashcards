@@ -44,6 +44,7 @@ export default function ViewCards() {
                   <th></th>
                   <th>Question</th>
                   <th>Answer</th>
+                  <th>Next review</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -51,10 +52,22 @@ export default function ViewCards() {
                 {rowInfo.map((row) => (
                   <tr key={row._id.$oid}>
                     <th></th>
-                    <td className="min-w-[35vw] max-w-[35vw]">{row.question}</td>
-                    <td className="min-w-[35vw] max-w-[35vw]">{row.answer}</td>
-                    <td className="min-w-[20vw] max-w-[20vw]">
-                      <button onClick={() => navigate(`/add-cards?question=${row.question}&answer=${row.answer}&id=${row._id.$oid}`)} className="btn btn-warning p-3 m-1">Edit</button>
+                    <td className="min-w-[25vw] max-w-[25vw]">
+                      {row.question}
+                    </td>
+                    <td className="min-w-[25vw] max-w-[25vw]">{row.answer}</td>
+                    <td className="min-w-[25vw] max-w-[25vw]">{row.timeStamp.$date}</td>
+                    <td className="min-w-[22vw] max-w-[22vw]">
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/add-cards?question=${row.question}&answer=${row.answer}&id=${row._id.$oid}`,
+                          )
+                        }
+                        className="btn btn-warning p-3 m-1"
+                      >
+                        Edit
+                      </button>
                       <button
                         onClick={() => deleteCard(row._id.$oid)}
                         className="btn btn-error p-3"
