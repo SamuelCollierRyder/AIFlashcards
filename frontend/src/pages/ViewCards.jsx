@@ -51,9 +51,9 @@ export default function ViewCards() {
                 {rowInfo.map((row) => (
                   <tr key={row._id.$oid}>
                     <th></th>
-                    <td class="min-w-[35vw] max-w-[35vw]">{row.question}</td>
-                    <td class="min-w-[35vw] max-w-[35vw]">{row.answer}</td>
-                    <td class="min-w-[20vw] max-w-[20vw]">
+                    <td className="min-w-[35vw] max-w-[35vw]">{row.question}</td>
+                    <td className="min-w-[35vw] max-w-[35vw]">{row.answer}</td>
+                    <td className="min-w-[20vw] max-w-[20vw]">
                       <button onClick={() => navigate(`/add-cards?question=${row.question}&answer=${row.answer}&id=${row._id.$oid}`)} className="btn btn-warning p-3 m-1">Edit</button>
                       <button
                         onClick={() => deleteCard(row._id.$oid)}

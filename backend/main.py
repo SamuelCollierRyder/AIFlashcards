@@ -63,6 +63,7 @@ def add_card():
             "answer": answer,
             "email": get_jwt_identity(),
             "timeStamp": datetime.datetime.now(),
+            "ef": 2.5,
         }
     )
     return jsonify({"inserted_id": str(result.inserted_id)}), 201
@@ -77,15 +78,33 @@ def remove_card():
     return jsonify({"deleted_id": id}), 200
 
 
+def calculate_interval(ef, interval):
+    if interval == 1:
+        return 1
+    elif interval == 2:
+        return 6
+    else:
+        return calculate_interval(ef, interval - 1) * ef
+
+
 @app.route("/update-time", methods=["GET", "POST"])
 @jwt_required()
 def update_time():
     request_data = request.get_json()
     id = request_data.get("content").get("id")
-    time = int(request_data.get("content").get("time"))
+    difficulty = int(request_data.get("content").get("difficulty"))
+    interval = calculate_interval(difficulty, 1)
+    ef = cards.find_one({"_id": ObjectId(id), "email": get_jwt_identity()})["ef"]
+    new_ef = ef + (0.1 - (5 - difficulty) * (0.08 + (5 - difficulty) * 0.02))
     result = cards.update_one(
         {"_id": ObjectId(id), "email": get_jwt_identity()},
-        {"$set": {"timeStamp": datetime.datetime.now() + datetime.timedelta(hours=time)}},
+        {
+            "$set": {
+                "timeStamp": datetime.datetime.now()
+                + datetime.timedelta(days=interval),
+                "ef": new_ef,
+            }
+        },
     )
     return jsonify(result.acknowledged), 201
 

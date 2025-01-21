@@ -23,10 +23,10 @@ export default function Study() {
       });
   }
 
-  async function updateTime(hours) {
+  async function updateTime(difficulty) {
     await fetchWithAuth(
       "http://localhost:5000/update-time",
-      { id: cards[cardIndex]._id.$oid, time: hours },
+      { id: cards[cardIndex]._id.$oid, difficulty: difficulty },
       "POST",
     );
     await fetchCards();
@@ -72,7 +72,7 @@ export default function Study() {
                   Again
                 </button>
                 <button
-                  onClick={() => updateTime("1")}
+                  onClick={() => updateTime("2")}
                   className="btn btn-warning m-2"
                 >
                   Hard
@@ -85,7 +85,7 @@ export default function Study() {
                 </button>
                 <button
                   onClick={() => {
-                    updateTime("24");
+                    updateTime("5");
                   }}
                   className="btn btn-success m-2"
                 >
