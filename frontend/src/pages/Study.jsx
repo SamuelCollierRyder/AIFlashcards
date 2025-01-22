@@ -4,21 +4,15 @@ import Layout from "../templates/Layout";
 import { fetchWithAuth } from "../utils/auth";
 
 export default function Study() {
-  const [message, setMessage] = useState(null);
   const [cards, setCards] = useState([{}]);
+  const message = cards.length == 0 ? "No more cards available" : null;
   const [cardIndex, setCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [showButtons, setShowButtons] = useState(true);
 
   async function fetchCards() {
     fetchWithAuth("http://localhost:5000/get-current-cards")
       .then((data) => data.json())
       .then((data) => {
-        if (data.length === 0) {
-          setMessage("No cards available");
-          setShowButtons(false);
-          return;
-        }
         setCards(data);
       });
   }
@@ -49,7 +43,7 @@ export default function Study() {
       content={
         <div className="flex flex-col items-center">
           <div>
-            <MathJax>{message || cards[cardIndex].question || ""}</MathJax>
+            <MathJax>{message || cards[cardIndex].question}</MathJax>
           </div>
           <div>
             <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>
@@ -59,7 +53,7 @@ export default function Study() {
               <button
                 className="btn btn-primary m-2"
                 onClick={() => setShowAnswer(!showAnswer)}
-                style={{ visibility: showButtons ? "visible" : "hidden" }}
+                style={{ visibility: message ? "hidden" : "visible" }}
               >
                 Show answer
               </button>
