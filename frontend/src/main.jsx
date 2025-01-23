@@ -36,6 +36,10 @@ const router = createBrowserRouter(
       path: "/study",
       element: <Study />,
     },
+    // {
+    //   path: "*",
+    //   element: <h1>Hmm, page not found</h1>,
+    // }
   ],
   {
     future: {
@@ -50,8 +54,6 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <MathJaxContext>
-      <RouterProvider router={router} future={{ v7_startTransition: true }} />
-    </MathJaxContext>
+      <RouterProvider router={router} future={{ v7_startTransition: true }}/>
   </StrictMode>,
 );

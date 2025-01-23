@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
 import Layout from "../templates/Layout";
 
 export default function SignUp() {

@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Layout from "../templates/Layout";
+import { useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../utils/auth";
 
 export default function ViewCards() {
@@ -11,10 +11,9 @@ export default function ViewCards() {
     await fetchWithAuth("http://localhost:5000/get-cards")
       .then((data) => data.json())
       .then((data) => {
-        if (data.length === 0) {
-          return;
+        if (data.length != 0) {
+          setRowInfo(data);
         }
-        setRowInfo(data);
       });
   }
 
@@ -56,7 +55,9 @@ export default function ViewCards() {
                       {row.question}
                     </td>
                     <td className="min-w-[25vw] max-w-[25vw]">{row.answer}</td>
-                    <td className="min-w-[25vw] max-w-[25vw]">{new Date(row.timeStamp.$date).toDateString()}</td>
+                    <td className="min-w-[25vw] max-w-[25vw]">
+                      {new Date(row.timeStamp.$date).toDateString()}
+                    </td>
                     <td className="min-w-[22vw] max-w-[22vw]">
                       <button
                         onClick={() =>

@@ -33,7 +33,7 @@ export default function Header({ signedIn = false, navigate }) {
                 onClick={() => {
                   localStorage.clear("token");
                   localStorage.clear("refresh_token");
-                  navigate("/");
+                  navigate("/log-in");
                 }}
               >
                 Sign out
@@ -46,7 +46,7 @@ export default function Header({ signedIn = false, navigate }) {
               <a onClick={() => navigate("/log-in")}>Log In</a>
             </li>
             <li>
-              <a onClick={() => navigate("sign-up")}>Sign Up</a>
+              <a onClick={() => navigate("/sign-up")}>Sign Up</a>
             </li>
           </ul>
         )}

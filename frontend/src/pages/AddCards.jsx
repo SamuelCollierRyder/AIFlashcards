@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { MathJax } from "better-react-mathjax";
 import Layout from "../templates/Layout";
 import { fetchWithAuth } from "../utils/auth";
+import { MathJaxContext } from "better-react-mathjax";
 
 export default function AddCards() {
   const [searchParams] = useSearchParams();
@@ -78,9 +79,11 @@ export default function AddCards() {
           <dialog id="preview_monad" className="modal">
             <div className="modal-box">
               <strong>Question:</strong>
-              <MathJax>{question}</MathJax>
-              <strong>Answer:</strong>
-              <MathJax>{answer}</MathJax>
+              <MathJaxContext>
+                <MathJax>{question}</MathJax>
+                <strong>Answer:</strong>
+                <MathJax>{answer}</MathJax>
+              </MathJaxContext>
               <div className="modal-action">
                 <form method="dialog">
                   <button className="btn">Close</button>

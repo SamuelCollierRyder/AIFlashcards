@@ -108,6 +108,7 @@ def update_time():
     )
     return jsonify(result.acknowledged), 201
 
+
 @app.route("/update-card", methods=["GET", "POST"])
 @jwt_required()
 def update_text():
@@ -125,6 +126,7 @@ def update_text():
         },
     )
     return jsonify(result.acknowledged), 201
+
 
 # User authentication
 @app.route("/sign-up", methods=["POST"])
@@ -197,49 +199,5 @@ def get_answer():
     return jsonify({"answer": answer}), 200
 
 
-@app.route("/get-cards-from-file", methods=["POST"])
-@jwt_required()
-def get_cards_from_file():
-    text = request.get_json()["content"]
-    response = open_ai_client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-                "role": "system",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": """You are a assistant for creating questions and answers 
-                        based on contents of lectures. Return the questions and answers 
-                        in the following format (NOTE: ONLY RETURN THESE VALUES, THE 
-                        RESULT MUST BE A JSON OBJECT, NO ESCAPE CHARACTERS AND DOUBLE BACKSLASHES): 
-                        [{'question': 'question1', 'answer': 'answer1'}]""",
-                    }
-                ],
-            },
-            {
-                "role": "user",
-                "content": [{"type": "text", "text": f"Lecture notes: {text}"}],
-            },
-        ],
-    )
-    response = response.choices[0].message.content or ""
-    response = response.replace("'", '"')
-    try:
-        json_response = json.loads(response)
-        for card in json_response:
-            cards.insert_one(
-                {
-                    "question": card["question"],
-                    "answer": card["answer"],
-                    "email": get_jwt_identity(),
-                }
-            )
-        return jsonify(f"{len(json_response)} cards added"), 200
-
-    except Exception as e:
-        return jsonify({f"error, {str(e)}": "Invalid response"}), 400
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

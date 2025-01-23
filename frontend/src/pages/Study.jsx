@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MathJax } from "better-react-mathjax";
 import Layout from "../templates/Layout";
 import { fetchWithAuth } from "../utils/auth";
+import { MathJaxContext } from "better-react-mathjax";
 
 export default function Study() {
   const [cards, setCards] = useState([{}]);
@@ -28,11 +29,6 @@ export default function Study() {
     setShowAnswer(false);
   }
 
-  function nextCard() {
-    setCardIndex((cardIndex + 1) % cards.length);
-    setShowAnswer(false);
-  }
-
   useEffect(() => {
     fetchCards();
   }, []);
@@ -43,10 +39,14 @@ export default function Study() {
       content={
         <div className="flex flex-col items-center">
           <div>
-            <MathJax>{message || cards[cardIndex].question}</MathJax>
+            <MathJaxContext>
+              <MathJax>{message || cards[cardIndex].question}</MathJax>
+            </MathJaxContext>
           </div>
           <div>
-            <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>
+            <MathJaxContext>
+              <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>
+            </MathJaxContext>
           </div>
           <div className="fixed bottom-0">
             {!showAnswer ? (
