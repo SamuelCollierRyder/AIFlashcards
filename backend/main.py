@@ -1,3 +1,4 @@
+import os
 import json
 import datetime
 from openai import OpenAI
@@ -14,13 +15,14 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
 
-with open("../secrets.json") as f:
-    data = json.load(f)
-    uri = data["mongodb_uri"]
-    secret_key = data["secret_key"]
-    jwt_secret_key = data["jwt_secret_key"]
-    open_ai_client = OpenAI(api_key=data["openai_key"])
+load_dotenv()
+
+uri = os.getenv("MONGO_URI")
+secret_key = os.getenv("SECRET_KEY")
+jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+open_ai_client = OpenAI(api_key=os.getenv("OPEN_AI_KEY"))
 
 # Create a new client and connect to the server
 mongo_db_client = MongoClient(uri, server_api=ServerApi("1"))

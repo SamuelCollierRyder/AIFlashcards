@@ -16,3 +16,4 @@ temp
 TODOs.md
 .eslintcache
 secrets.json
+.env
