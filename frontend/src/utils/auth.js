@@ -1,5 +1,22 @@
+const backendUrl = "http://localhost:5000";
+
+export const fetchWithoutAuth = async (
+  sub_dir,
+  bodyContent = null,
+  method = "GET",
+) => {
+  console.log(backendUrl + sub_dir);
+  return fetch(backendUrl + sub_dir, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bodyContent)
+  });
+};
+
 export const fetchWithAuth = async (
-  url,
+  sub_dir,
   bodyContent = null,
   method = "GET",
   options = {},
@@ -9,7 +26,7 @@ export const fetchWithAuth = async (
     return false;
   }
   const body = bodyContent ? JSON.stringify({ content: bodyContent }) : null;
-  return fetch(url, {
+  return fetch(backendUrl + sub_dir, {
     method: method,
     ...options,
     headers: {
@@ -29,7 +46,7 @@ export const refreshToken = async (options = {}) => {
   }
 
   try {
-    await fetch("http://localhost:5000/refresh-token", {
+    await fetch(backendUrl + "/refresh-token", {
       ...options,
       headers: {
         ...options.headers,
@@ -49,7 +66,7 @@ export const refreshToken = async (options = {}) => {
 };
 
 export const getLoggedInUser = async () => {
-  const response = await fetchWithAuth("http://localhost:5000/get-user");
+  const response = await fetchWithAuth("/get-user");
   if (!response) {
     return null;
   }

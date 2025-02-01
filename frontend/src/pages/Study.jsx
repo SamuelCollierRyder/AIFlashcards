@@ -11,7 +11,7 @@ export default function Study() {
   const [showAnswer, setShowAnswer] = useState(false);
 
   async function fetchCards() {
-    fetchWithAuth("http://localhost:5000/get-current-cards")
+    fetchWithAuth("/get-current-cards")
       .then((data) => data.json())
       .then((data) => {
         setCards(data);
@@ -20,7 +20,7 @@ export default function Study() {
 
   async function updateTime(difficulty) {
     await fetchWithAuth(
-      "http://localhost:5000/update-time",
+      "/update-time",
       { id: cards[cardIndex]._id.$oid, difficulty: difficulty },
       "POST",
     );
@@ -40,12 +40,12 @@ export default function Study() {
         <div className="flex flex-col items-center">
           <div>
             <MathJaxContext>
-              <MathJax>{message || cards[cardIndex].question || ""}</MathJax>
+              <MathJax>{message || (cards[cardIndex] ? cards[cardIndex].question : "")}</MathJax>
             </MathJaxContext>
           </div>
           <div>
             <MathJaxContext>
-              <MathJax>{showAnswer ? cards[cardIndex].answer : " "}</MathJax>
+              <MathJax>{showAnswer && cards[cardIndex] ? cards[cardIndex].answer : " "}</MathJax>
             </MathJaxContext>
           </div>
           <div className="fixed bottom-0">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../templates/Layout";
+import { fetchWithoutAuth } from "../utils/auth";
 
 export default function SignUp() {
   const [alertMessage, setAlertMessage] = useState("");
@@ -18,17 +19,11 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/sign-up`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          passwordConfirm: passwordConfirm,
-        }),
-      });
+      const response = await fetchWithoutAuth(
+        `/sign-up`,
+        { email: email, password: password, passwordConfirm: passwordConfirm },
+        "POST",
+      );
 
       if (!response.ok) {
         setAlertMessage("Email already exists");

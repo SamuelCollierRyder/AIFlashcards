@@ -25,13 +25,13 @@ export default function AddCards() {
     } else if (event === "submit") {
       if (id) {
         await fetchWithAuth(
-          "http://localhost:5000/update-card",
+          "/update-card",
           { id: id, question: question, answer: answer },
           "POST",
         );
       } else {
         await fetchWithAuth(
-          "http://localhost:5000/add-card",
+          "/add-card",
           {
             question: question,
             answer: answer,
@@ -44,7 +44,7 @@ export default function AddCards() {
     } else if (event === "aiAnswer") {
       setLoadingAIAnswer(true);
       const response = await fetchWithAuth(
-        `http://localhost:5000/get-answer?question=${question}`,
+        `/get-answer?question=${question}`,
       );
       const data = await response.json();
       document.getElementById("answer").value = data.answer;

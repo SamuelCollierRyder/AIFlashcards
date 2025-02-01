@@ -8,7 +8,7 @@ export default function ViewCards() {
   const navigate = useNavigate();
 
   async function fetchCards() {
-    await fetchWithAuth("http://localhost:5000/get-cards")
+    await fetchWithAuth("/get-cards")
       .then((data) => data.json())
       .then((data) => {
         if (data.length != 0) {
@@ -20,7 +20,7 @@ export default function ViewCards() {
   async function deleteCard(id) {
     setRowInfo(rowInfo.filter((row) => row._id.$oid !== id));
     await fetchWithAuth(
-      "http://localhost:5000/remove-card",
+      "/remove-card",
       { id: id },
       "DELETE",
     );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../templates/Layout";
+import { fetchWithoutAuth } from "../utils/auth";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -11,13 +12,11 @@ export default function LogIn() {
     try {
       const email = e.target.email.value;
       const password = e.target.password.value;
-      const response = await fetch(`http://localhost:5000/log-in`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      });
+      const response = await fetchWithoutAuth(
+        "/log-in",
+        { email: email, password: password },
+        "POST",
+      );
 
       if (!response.ok) {
         setError(true);
