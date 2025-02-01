@@ -1,5 +1,4 @@
 import os
-import json
 import datetime
 from openai import OpenAI
 from flask import Flask, jsonify, request
