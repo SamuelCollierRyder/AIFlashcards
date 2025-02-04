@@ -1,11 +1,11 @@
-const backendUrl = "http://localhost:5000";
+// const backendUrl = "http://localhost:5000";
+const backendUrl = "https://samuelcr99.pythonanywhere.com"
 
 export const fetchWithoutAuth = async (
   sub_dir,
   bodyContent = null,
   method = "GET",
 ) => {
-  console.log(backendUrl + sub_dir);
   return fetch(backendUrl + sub_dir, {
     method: method,
     headers: {
