@@ -17,3 +17,4 @@ TODOs.md
 .eslintcache
 secrets.json
 .env
+__pycache__
