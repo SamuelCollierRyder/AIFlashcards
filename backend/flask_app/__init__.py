@@ -49,4 +49,6 @@ def create_app(test_config=None):
     from . import jwt
     app.register_blueprint(jwt.bp)
 
+    from . import ai
+    app.register_blueprint(ai.bp)
     return app
