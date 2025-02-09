@@ -1,6 +1,13 @@
 import os
-
+from dotenv import load_dotenv
 from flask import Flask
+from flask_jwt_extended import (
+    JWTManager,
+    create_access_token,
+    create_refresh_token,
+    jwt_required,
+    get_jwt_identity,
+)
 
 
 def create_app(test_config=None):
@@ -24,10 +31,22 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    load_dotenv()
+    jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+
+    app.config["JWT_SECRET_KEY"] = jwt_secret_key
+    jwt = JWTManager(app)
+
     from . import db
     db.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import cards
+    app.register_blueprint(cards.bp)
+
+    from . import jwt
+    app.register_blueprint(jwt.bp)
 
     return app
