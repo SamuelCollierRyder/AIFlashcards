@@ -11,7 +11,7 @@ export default function Study() {
   const [showAnswer, setShowAnswer] = useState(false);
 
   async function fetchCards() {
-    fetchWithAuth("/get-current-cards")
+    fetchWithAuth("/cards/get-current")
       .then((data) => data.json())
       .then((data) => {
         setCards(data);
@@ -20,8 +20,8 @@ export default function Study() {
 
   async function updateTime(difficulty) {
     await fetchWithAuth(
-      "/update-time",
-      { id: cards[cardIndex]._id.$oid, difficulty: difficulty },
+      "/cards/update-time",
+      { id: cards[cardIndex].id, difficulty: difficulty },
       "POST",
     );
     await fetchCards();

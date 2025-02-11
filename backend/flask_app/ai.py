@@ -2,10 +2,14 @@ import os
 from openai import OpenAI
 from flask import Blueprint, request, jsonify
 bp = Blueprint("ai", __name__, url_prefix="/ai")
+from flask_jwt_extended import (
+    jwt_required,
+)
 
 open_ai_client = OpenAI(api_key=os.getenv("OPEN_AI_KEY"))
 
 @bp.route("/get-answer", methods=["POST"])
+@jwt_required()
 def get_answer():
     request_data = request.get_json()
     question = request_data.get("question")

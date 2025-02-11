@@ -1,5 +1,5 @@
-// const backendUrl = "http://localhost:5000";
-const backendUrl = "https://samuelcr99.pythonanywhere.com"
+const backendUrl = "http://localhost:5000";
+// const backendUrl = "https://samuelcr99.pythonanywhere.com"
 
 export const fetchWithoutAuth = async (
   sub_dir,
@@ -25,7 +25,7 @@ export const fetchWithAuth = async (
   if (!tokenAvailable) {
     return false;
   }
-  const body = bodyContent ? JSON.stringify({ content: bodyContent }) : null;
+  const body = bodyContent ? JSON.stringify(bodyContent ) : null;
   return fetch(backendUrl + sub_dir, {
     method: method,
     ...options,
@@ -46,7 +46,7 @@ export const refreshToken = async (options = {}) => {
   }
 
   try {
-    await fetch(backendUrl + "/refresh-token", {
+    await fetch(backendUrl + "/jwt/refresh-token", {
       ...options,
       headers: {
         ...options.headers,
@@ -66,7 +66,7 @@ export const refreshToken = async (options = {}) => {
 };
 
 export const getLoggedInUser = async () => {
-  const response = await fetchWithAuth("/get-user");
+  const response = await fetchWithAuth("/jwt/get-user");
   if (!response) {
     return null;
   }

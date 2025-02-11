@@ -1,12 +1,9 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager,
-    create_access_token,
-    create_refresh_token,
-    jwt_required,
-    get_jwt_identity,
 )
 
 
@@ -17,6 +14,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flask_app.sqlite'),
     )
+    CORS(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

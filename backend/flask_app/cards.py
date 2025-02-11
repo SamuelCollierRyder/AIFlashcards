@@ -14,14 +14,13 @@ bp = Blueprint("cards", __name__, url_prefix="/cards")
 
 
 @bp.route("/add", methods=["GET", "POST"])
-# @jwt_required()
+@jwt_required()
 def add_card():
     db = get_db()
     request_data = request.get_json()
     question = request_data.get("question")
     answer = request_data.get("answer")
-    # user_email = get_jwt_identity()
-    user_email = "sam"
+    user_email = get_jwt_identity()
     try:
         db.execute(
             "INSERT INTO card (user_email, question, answer, timestamp) VALUES (?, ?, ?, ?)",
@@ -30,16 +29,15 @@ def add_card():
         db.commit()
         return jsonify({"success": "Card added"}), 201
 
-    except Exception:
+    except Exception as e:
         return jsonify({"error": "Unknown error"}), 500
 
 
 @bp.route("/get-all", methods=["GET"])
-# @jwt_required()
+@jwt_required()
 def get_all():
     db = get_db()
-    # user_email = get_jwt_identity()
-    user_email = "sam"
+    user_email = get_jwt_identity()
     cards = db.execute(
         "SELECT * FROM card WHERE user_email = ?", (user_email,)
     ).fetchall()
@@ -48,12 +46,11 @@ def get_all():
 
 
 @bp.route("/get-current", methods=["GET"])
-# @jwt_required()
+@jwt_required()
 def get_current():
     db = get_db()
     current_time = datetime.now()
-    # user_email = get_jwt_identity()
-    user_email = "sam"
+    user_email = get_jwt_identity()
     cards = db.execute(
         "SELECT * FROM card WHERE user_email = ? AND timestamp < ?",
         (user_email, current_time),
@@ -62,14 +59,13 @@ def get_current():
     return jsonify(cards), 200
 
 
-@bp.route("/delete", methods=["GET", "POST"])
-# @jwt_required()
+@bp.route("/delete", methods=["DELETE"])
+@jwt_required()
 def delete_card():
     db = get_db()
     request_data = request.get_json()
     card_id = request_data.get("id")
-    # user_email = get_jwt_identity()
-    user_email = "sam"
+    user_email = get_jwt_identity()
 
     try:
         db.execute(
@@ -92,7 +88,7 @@ def calculate_interval(ef, interval):
 
 
 @bp.route("/update-time", methods=["GET", "POST"])
-# @jwt_required()
+@jwt_required()
 def update_time():
     db = get_db()
     request_data = request.get_json()

@@ -20,8 +20,8 @@ export default function SignUp() {
 
     try {
       const response = await fetchWithoutAuth(
-        `/sign-up`,
-        { email: email, password: password, passwordConfirm: passwordConfirm },
+        `/auth/signup`,
+        { email: email, password: password },
         "POST",
       );
 

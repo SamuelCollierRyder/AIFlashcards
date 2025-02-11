@@ -8,7 +8,7 @@ export default function ViewCards() {
   const navigate = useNavigate();
 
   async function fetchCards() {
-    await fetchWithAuth("/get-cards")
+    await fetchWithAuth("/cards/get-all")
       .then((data) => data.json())
       .then((data) => {
         if (data.length != 0) {
@@ -18,9 +18,9 @@ export default function ViewCards() {
   }
 
   async function deleteCard(id) {
-    setRowInfo(rowInfo.filter((row) => row._id.$oid !== id));
+    setRowInfo(rowInfo.filter((row) => row.id !== id));
     await fetchWithAuth(
-      "/remove-card",
+      "/cards/delete",
       { id: id },
       "DELETE",
     );
@@ -49,20 +49,20 @@ export default function ViewCards() {
               </thead>
               <tbody>
                 {rowInfo.map((row) => (
-                  <tr key={row._id.$oid}>
+                  <tr key={row.id}>
                     <th></th>
                     <td className="min-w-[25vw] max-w-[25vw]">
                       {row.question}
                     </td>
                     <td className="min-w-[25vw] max-w-[25vw]">{row.answer}</td>
                     <td className="min-w-[25vw] max-w-[25vw]">
-                      {new Date(row.timeStamp.$date).toDateString()}
+                      {new Date(row.timeStamp).toDateString()}
                     </td>
                     <td className="min-w-[22vw] max-w-[22vw]">
                       <button
                         onClick={() =>
                           navigate(
-                            `/add-cards?question=${row.question}&answer=${row.answer}&id=${row._id.$oid}`,
+                            `/add-cards?question=${row.question}&answer=${row.answer}&id=${row.id}`,
                           )
                         }
                         className="btn btn-warning p-3 m-1"
@@ -70,7 +70,7 @@ export default function ViewCards() {
                         Edit
                       </button>
                       <button
-                        onClick={() => deleteCard(row._id.$oid)}
+                        onClick={() => deleteCard(row.id)}
                         className="btn btn-error p-3"
                       >
                         Delete

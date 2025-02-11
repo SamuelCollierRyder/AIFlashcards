@@ -13,7 +13,7 @@ export default function LogIn() {
       const email = e.target.email.value;
       const password = e.target.password.value;
       const response = await fetchWithoutAuth(
-        "/log-in",
+        "/auth/login",
         { email: email, password: password },
         "POST",
       );
