@@ -11,7 +11,7 @@ export const fetchWithoutAuth = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(bodyContent)
+    body: JSON.stringify(bodyContent),
   });
 };
 
@@ -25,7 +25,7 @@ export const fetchWithAuth = async (
   if (!tokenAvailable) {
     return false;
   }
-  const body = bodyContent ? JSON.stringify(bodyContent ) : null;
+  const body = bodyContent ? JSON.stringify(bodyContent) : null;
   return fetch(backendUrl + sub_dir, {
     method: method,
     ...options,
@@ -47,6 +47,7 @@ export const refreshToken = async (options = {}) => {
 
   try {
     await fetch(backendUrl + "/jwt/refresh-token", {
+      method: "POST",
       ...options,
       headers: {
         ...options.headers,

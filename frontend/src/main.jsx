@@ -7,6 +7,7 @@ import AddCards from "./pages/AddCards.jsx";
 import ViewCards from "./pages/ViewCards.jsx";
 import Study from "./pages/Study.jsx";
 import Index from "./pages/Index.jsx";
+import UploadFile from "./pages/UploadFile.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter(
@@ -34,6 +35,10 @@ const router = createBrowserRouter(
     {
       path: "/study",
       element: <Study />,
+    },
+    {
+      path: "/upload-file",
+      element: <UploadFile />,
     },
     // {
     //   path: "*",

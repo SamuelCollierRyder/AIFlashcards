@@ -1,12 +1,14 @@
 import os
 from openai import OpenAI
 from flask import Blueprint, request, jsonify
+
 bp = Blueprint("ai", __name__, url_prefix="/ai")
 from flask_jwt_extended import (
     jwt_required,
 )
 
 open_ai_client = OpenAI(api_key=os.getenv("OPEN_AI_KEY"))
+
 
 @bp.route("/get-answer", methods=["POST"])
 @jwt_required()
@@ -18,6 +20,27 @@ def get_answer():
             {
                 "role": "user",
                 "content": f"You are a bot for a flashcard app, give me the answer to this question: {question}",
+            }
+        ],
+        model="gpt-4",
+    )
+    answer = chat_completion.choices[0].message.content
+    return jsonify({"answer": answer}), 200
+
+
+@bp.route("/create-cards-from-file", methods=["POST"])
+@jwt_required()
+def create_cards_from_file():
+    request_data = request.get_json()
+    card_info = request_data.get("text")
+    chat_completion = open_ai_client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"""You are a bot for a flashcard app, create flashcards with back and 
+                                front and back side, it should be formatted as a JSON in the following
+                                manner ["question1": "answer1", "question2": "answer2"...].
+                                Convert the following text into flashcards: {card_info}""",
             }
         ],
         model="gpt-4",

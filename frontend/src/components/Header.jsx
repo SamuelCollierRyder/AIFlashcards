@@ -20,6 +20,9 @@ export default function Header({ signedIn = false, navigate }) {
         {signedIn ? (
           <ul className="menu menu-horizontal px-1">
             <li>
+              <a onClick={() => navigate("/upload-file")}>Upload file</a>
+            </li>
+            <li>
               <a onClick={() => navigate("/add-cards")}>Add cards</a>
             </li>
             <li>
