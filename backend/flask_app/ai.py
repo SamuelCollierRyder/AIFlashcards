@@ -1,4 +1,5 @@
 import os
+import json
 from openai import OpenAI
 from flask import Blueprint, request, jsonify
 
@@ -46,4 +47,8 @@ def create_cards_from_file():
         model="gpt-4",
     )
     answer = chat_completion.choices[0].message.content
-    return jsonify({"answer": answer}), 200
+    try:
+        json_answer = json.loads(answer)
+        return jsonify(json_answer), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400

@@ -4,6 +4,8 @@ import { fetchWithAuth } from "../utils/auth";
 
 export default function UploadFile() {
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [cards, setCards] = useState([]);
 
   // Trigger file selection window
   const handleButtonClick = () => {
@@ -12,6 +14,7 @@ export default function UploadFile() {
 
   // Handle file selection
   const handleFileChange = async (event) => {
+    setLoading(true);
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
@@ -23,7 +26,9 @@ export default function UploadFile() {
           "POST",
         );
         const data = await response.json();
-        console.log(JSON.parse(data));
+        console.log(data);
+        setCards(data);
+        setLoading(false);
       };
       reader.readAsText(selectedFile);
     }
@@ -46,6 +51,17 @@ export default function UploadFile() {
             <button className="btn btn-primary" onClick={handleButtonClick}>
               Upload file
             </button>
+            <span
+              className="loading loading-dots loading-lg"
+              style={{ visibility: loading ? "visible" : "hidden" }}
+            >
+              Hello
+            </span>
+            {cards.map((card, index) => (
+              <div key={index} className="card">
+                <span>{card.question}:{card.answer}</span>
+              </div>
+            ))}
           </div>
         </>
       }
