@@ -40,7 +40,7 @@ def create_cards_from_file():
                 "role": "user",
                 "content": f"""You are a bot for a flashcard app, create flashcards with back and 
                                 front and back side, it should be formatted as a JSON in the following
-                                manner ["question1": "answer1", "question2": "answer2"...].
+                                way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
                                 Convert the following text into flashcards: {card_info}""",
             }
         ],
@@ -51,4 +51,4 @@ def create_cards_from_file():
         json_answer = json.loads(answer)
         return jsonify(json_answer), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": "Something went wrong"}), 400

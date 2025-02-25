@@ -26,12 +26,36 @@ export default function UploadFile() {
           "POST",
         );
         const data = await response.json();
-        console.log(data);
+        if (data.error) {
+          setLoading(false);
+          return;
+        }
         setCards(data);
         setLoading(false);
       };
       reader.readAsText(selectedFile);
     }
+  };
+
+  const removeCard = (index) => {
+    cards.splice(index, 1);
+    setCards([...cards]);
+  };
+
+  const addCard = async (index) => {
+    cards.splice(index, 1);
+    setCards([...cards]);
+
+    await fetchWithAuth(
+      "/cards/add",
+      {
+        question: cards[index].question,
+        answer: cards[index].answer,
+      },
+      "POST",
+    );
+
+    console.log("Card added");
   };
 
   return (
@@ -48,18 +72,41 @@ export default function UploadFile() {
           />
 
           <div className="flex flex-col items-center">
-            <button className="btn btn-primary" onClick={handleButtonClick}>
+            <button
+              className="btn btn-primary"
+              onClick={handleButtonClick}
+              disabled={loading}
+            >
               Upload file
             </button>
             <span
-              className="loading loading-dots loading-lg"
+              className="loading loading-dots loading-lg m-8"
               style={{ visibility: loading ? "visible" : "hidden" }}
-            >
-              Hello
-            </span>
+            ></span>
+
             {cards.map((card, index) => (
-              <div key={index} className="card">
-                <span>{card.question}:{card.answer}</span>
+              <div
+                key={index}
+                className="card bg-neutral text-neutral-content w-96 m-2"
+              >
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title">{card.question}</h2>
+                  <p>{card.answer}</p>
+                  <div className="card-actions justify-end">
+                    <button
+                      onClick={() => addCard(index)}
+                      className="btn btn-primary"
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={() => removeCard(index)}
+                      className="btn btn-ghost"
+                    >
+                      Discard
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
