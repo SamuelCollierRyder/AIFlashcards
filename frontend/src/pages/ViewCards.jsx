@@ -56,7 +56,7 @@ export default function ViewCards() {
                     </td>
                     <td className="min-w-[25vw] max-w-[25vw]">{row.answer}</td>
                     <td className="min-w-[25vw] max-w-[25vw]">
-                      {new Date(row.timeStamp).toDateString()}
+                      {new Date(row.timestamp).toDateString()}
                     </td>
                     <td className="min-w-[22vw] max-w-[22vw]">
                       <button
