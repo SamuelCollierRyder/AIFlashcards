@@ -52,3 +52,29 @@ def create_cards_from_file():
         return jsonify(json_answer), 200
     except Exception as e:
         return jsonify({"error": "Something went wrong"}), 400
+
+
+@bp.route("/create-cards-from-topic", methods=["POST"])
+@jwt_required()
+def create_cards_from_topic():
+    request_data = request.get_json()
+    card_info = request_data.get("topic")
+    chat_completion = open_ai_client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"""You are a bot for a flashcard app, create flashcards with back and 
+                                front and back side, it should be formatted as a JSON in the following
+                                way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
+                                Take the following topic and convert it into flashcards: {card_info}""",
+            }
+        ],
+        model="gpt-4",
+    )
+    answer = chat_completion.choices[0].message.content
+    try:
+        json_answer = json.loads(answer)
+        return jsonify(json_answer), 200
+
+    except Exception as e:
+        return jsonify({"error": e}), 400

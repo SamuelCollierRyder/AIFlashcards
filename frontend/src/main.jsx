@@ -8,6 +8,7 @@ import ViewCards from "./pages/ViewCards.jsx";
 import Study from "./pages/Study.jsx";
 import Index from "./pages/Index.jsx";
 import UploadFile from "./pages/UploadFile.jsx";
+import Topic from "./pages/Topic.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter(
@@ -40,6 +41,10 @@ const router = createBrowserRouter(
       path: "/upload-file",
       element: <UploadFile />,
     },
+    {
+      path: "/topic",
+      element: <Topic />,
+    },
     // {
     //   path: "*",
     //   element: <h1>Hmm, page not found</h1>,
@@ -58,6 +63,6 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-      <RouterProvider router={router} future={{ v7_startTransition: true }}/>
+    <RouterProvider router={router} future={{ v7_startTransition: true }} />
   </StrictMode>,
 );
