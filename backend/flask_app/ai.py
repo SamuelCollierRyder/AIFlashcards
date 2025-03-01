@@ -37,22 +37,30 @@ def create_cards_from_file():
     chat_completion = open_ai_client.chat.completions.create(
         messages=[
             {
-                "role": "user",
-                "content": f"""You are a bot for a flashcard app, create flashcards with back and 
-                                front and back side, it should be formatted as a JSON in the following
-                                way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
-                                Convert the following text into flashcards: {card_info}.
-                                It is extreamly important that the returned value can be converted using json.loads"""
+                "role": "system",
+                "content": (
+                    "You are a bot for a flashcard app. Your response must be a valid JSON array with no extra text. "
+                    "Format: [{'question': 'question 1', 'answer': 'answer1'}, {'question': 'question 2', 'answer': 'answer2'}]. "
+                    "Only return the JSON. No explanations. Text to summarize: "
+                    + card_info
+                ),
             }
         ],
-        model="gpt-4",
+        model="gpt-4o",
     )
-    answer = chat_completion.choices[0].message.content
+    answer = chat_completion.choices[0].message.content.strip()
     try:
         json_answer = json.loads(answer)
-        return jsonify(json_answer), 200
-    except Exception as e:
-        return jsonify({"error": "Something went wrong"}), 400
+
+    except json.JSONDecodeError:
+        return (
+            jsonify(
+                {"error": "Invalid JSON response from OpenAI", "raw_response": answer}
+            ),
+            500,
+        )
+
+    return jsonify(json_answer), 200
 
 
 @bp.route("/create-cards-from-topic", methods=["POST"])
@@ -63,20 +71,26 @@ def create_cards_from_topic():
     chat_completion = open_ai_client.chat.completions.create(
         messages=[
             {
-                "role": "user",
-                "content": f"""You are a bot for a flashcard app, create flashcards with back and 
-                                front and back side, it should be formatted as a JSON in the following
-                                way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
-                                Take the following topic and convert it into flashcards: {card_info}.
-                                It is extreamly important that the returned value can be converted using json.loads"""
+                "role": "system",
+                "content": (
+                    "You are a bot for a flashcard app. Your response must be a valid JSON array with no extra text. "
+                    "Format: [{'question': 'question 1', 'answer': 'answer1'}, {'question': 'question 2', 'answer': 'answer2'}]. "
+                    "Only return the JSON. No explanations. Topic: " + card_info
+                ),
             }
         ],
-        model="gpt-4",
+        model="gpt-4o",
     )
-    answer = chat_completion.choices[0].message.content
+    answer = chat_completion.choices[0].message.content.strip()
     try:
         json_answer = json.loads(answer)
-        return jsonify(json_answer), 200
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    except json.JSONDecodeError:
+        return (
+            jsonify(
+                {"error": "Invalid JSON response from OpenAI", "raw_response": answer}
+            ),
+            500,
+        )
+
+    return jsonify(json_answer), 200
