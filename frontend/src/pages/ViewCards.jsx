@@ -19,11 +19,7 @@ export default function ViewCards() {
 
   async function deleteCard(id) {
     setRowInfo(rowInfo.filter((row) => row.id !== id));
-    await fetchWithAuth(
-      "/cards/delete",
-      { id: id },
-      "DELETE",
-    );
+    await fetchWithAuth("/cards/delete", { id: id }, "DELETE");
   }
 
   useEffect(() => {

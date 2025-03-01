@@ -12,7 +12,7 @@ export default function Topic() {
     const topic = e.target.topic.value;
     const response = await fetchWithAuth(
       "/ai/create-cards-from-topic",
-      {topic: topic},
+      { topic: topic },
       "POST",
     );
     const data = await response.json();
@@ -87,7 +87,7 @@ export default function Topic() {
                     </button>
                     <button
                       onClick={() => removeCard(index)}
-                      className="btn btn-ghost"
+                      className="btn btn-error"
                     >
                       Discard
                     </button>

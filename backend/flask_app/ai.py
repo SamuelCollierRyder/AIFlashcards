@@ -41,7 +41,8 @@ def create_cards_from_file():
                 "content": f"""You are a bot for a flashcard app, create flashcards with back and 
                                 front and back side, it should be formatted as a JSON in the following
                                 way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
-                                Convert the following text into flashcards: {card_info}""",
+                                Convert the following text into flashcards: {card_info}.
+                                It is extreamly important that the returned value can be converted using json.loads"""
             }
         ],
         model="gpt-4",
@@ -66,7 +67,8 @@ def create_cards_from_topic():
                 "content": f"""You are a bot for a flashcard app, create flashcards with back and 
                                 front and back side, it should be formatted as a JSON in the following
                                 way [{{'question': 'question 1', 'answer': 'answer1'}}, {{'question': "question 2", 'answer' : 'answer2'}}...].
-                                Take the following topic and convert it into flashcards: {card_info}""",
+                                Take the following topic and convert it into flashcards: {card_info}.
+                                It is extreamly important that the returned value can be converted using json.loads"""
             }
         ],
         model="gpt-4",
@@ -77,4 +79,4 @@ def create_cards_from_topic():
         return jsonify(json_answer), 200
 
     except Exception as e:
-        return jsonify({"error": e}), 400
+        return jsonify({"error": str(e)}), 400

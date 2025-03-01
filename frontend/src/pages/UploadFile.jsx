@@ -101,7 +101,7 @@ export default function UploadFile() {
                     </button>
                     <button
                       onClick={() => removeCard(index)}
-                      className="btn btn-ghost"
+                      className="btn btn-error"
                     >
                       Discard
                     </button>

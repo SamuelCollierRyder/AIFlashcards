@@ -43,10 +43,9 @@ export default function AddCards() {
       }
     } else if (event === "aiAnswer") {
       setLoadingAIAnswer(true);
-      const response = await fetchWithAuth(
-        `/ai/get-answer`,
-        {question: question},
-      );
+      const response = await fetchWithAuth(`/ai/get-answer`, {
+        question: question,
+      });
       const data = await response.json();
       document.getElementById("answer").value = data.answer;
       setAnswer(data.answer);
